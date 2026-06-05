@@ -1,24 +1,23 @@
 <div
-	class="break-inside-avoid bg-white/40 backdrop-blur-md rounded-[20px] p-5 border border-white/40 shadow-sm hover:shadow-md hover:bg-white/60 hover:border-indigo-500/30 transition-all duration-300 group cursor-pointer"
+    class="inline-block w-full break-inside-avoid-column mb-5 bg-white/40 backdrop-blur-md rounded-[20px] p-5 border border-white/40 shadow-sm hover:shadow-md hover:bg-white/60 hover:border-indigo-500/30 transition-all duration-300 group cursor-pointer"
 >
-	<div class="flex items-center space-x-3 mb-3">
-		<div
-			class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-colors"
-		>
-			<i class="fa-solid fa-magic-wand-sparkles text-sm"></i>
-		</div>
-		<h3 class="font-bold text-slate-900 text-sm group-hover:text-indigo-600 transition-colors">
-			Premium Consultation
-		</h3>
-	</div>
-	<p class="text-xs text-slate-600 leading-relaxed">
-		Our flagship package. Deep dive sync into your strategic choices, ongoing workflows, and
-		structural reviews.
-	</p>
-	<div
-		class="mt-4 pt-3 border-t border-slate-900/5 flex justify-between items-center text-[11px] text-slate-400"
-	>
-		<span>60 Mins</span>
-		<span class="font-semibold text-slate-700 bg-white/80 px-2 py-0.5 rounded-md">$120</span>
-	</div>
+    <div (click)="handleClick()" class="flex items-center space-x-3 mb-3">
+        <div
+            class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors"
+        >
+            <i class="fa-solid fa-magic-wand-sparkles text-sm"></i>
+        </div>
+        <h3 class="font-bold text-slate-900 text-sm group-hover:text-emerald-600 transition-colors">
+            {{ service().name }}
+        </h3>
+    </div>
+    <p class="text-xs text-slate-600 leading-relaxed">
+        {{ service().description }}
+    </p>
+    <div
+        class="mt-4 pt-3 border-t border-slate-900/5 flex justify-between items-center text-[11px] text-slate-400"
+    >
+        <span>{{ service().duration / 60 }} Mins</span>
+        <span class="font-semibold text-slate-700 bg-white/80 px-2 py-0.5 rounded-md">$120</span>
+    </div>
 </div>
