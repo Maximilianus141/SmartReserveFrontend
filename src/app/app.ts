@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Header } from './header/header';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+	selector: 'app-root',
+	imports: [RouterOutlet, Header],
+	templateUrl: './app.html',
+	styleUrl: './app.css',
 })
 export class App {
-  protected readonly title = signal('SmartReserveFrontend');
+	protected readonly title = signal('SmartReserveFrontend');
 }
