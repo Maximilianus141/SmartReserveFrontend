@@ -1,8 +1,9 @@
 <div
 	(contextmenu)="handleRightClick($event)"
+	(click)="handleClick()"
 	class="inline-block w-full break-inside-avoid-column mb-5 bg-white/40 backdrop-blur-md rounded-[20px] p-5 border border-white/40 shadow-sm hover:shadow-md hover:bg-white/60 hover:border-indigo-500/30 transition-all duration-300 group cursor-pointer"
 >
-	<div (click)="handleClick()" class="flex items-center space-x-3 mb-3">
+	<div class="flex items-center space-x-3 mb-3">
 		<div
 			class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl group-hover:bg-emerald-600 group-hover:text-white transition-colors"
 		>
@@ -24,26 +25,28 @@
 </div>
 
 @if (activeMenuId() === service().id) {
-  <div 
-    class="fixed z-50 min-w-[160px] bg-white border border-gray-200 rounded-md shadow-lg py-1 text-sm text-gray-700"
-    [style.top.px]="menuPosition().y" 
-    [style.left.px]="menuPosition().x">
-    
-    <ul>
-      <li>
-        <button 
-          (click)="handleClick()" 
-          class="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors">
-          Select Service
-        </button>
-      </li>
-      <li>
-        <button 
-          (click)="activeMenuId.set(null)" 
-          class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
-          Cancel
-        </button>
-      </li>
-    </ul>
-  </div>
+	<div
+		class="fixed z-50 min-w-[160px] bg-white border border-gray-200 rounded-md shadow-lg py-1 text-sm text-gray-700"
+		[style.top.px]="menuPosition().y"
+		[style.left.px]="menuPosition().x"
+	>
+		<ul>
+			<li>
+				<button
+					(click)="handleClick()"
+					class="w-full text-left px-4 py-2 hover:bg-gray-100 transition-colors"
+				>
+					Select Service
+				</button>
+			</li>
+			<li>
+				<button
+					(click)="activeMenuId.set(null)"
+					class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+				>
+					Cancel
+				</button>
+			</li>
+		</ul>
+	</div>
 }

@@ -10,7 +10,7 @@
 		@for (service of serviceList(); track $index) {
 			<app-service
 				[service]="service"
-				(serviceId)="handleServiceId()"
+				(serviceId)="handleServiceId($event)"
 			></app-service>
 		}
 	</div>

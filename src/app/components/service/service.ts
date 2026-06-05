@@ -17,7 +17,7 @@ export class Service {
         duration: 0,
         id: -1,
     });
-	
+
 	activeMenuId = activeMenuServiceId;
 
     serviceId = output<number>();
@@ -25,6 +25,7 @@ export class Service {
 
     handleClick() {
         this.serviceId.emit(this.service().id);
+		console.log("Emitted service ID: ", this.service().id);
         activeMenuServiceId.set(null); // Close the menu
     }
 

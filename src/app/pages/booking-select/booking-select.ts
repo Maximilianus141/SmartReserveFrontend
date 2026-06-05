@@ -3,10 +3,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { ServiceInfo } from '../../dataaccess/service-info';
+import { BookingSelectCalender } from "../../components/booking-select-calender/booking-select-calender";
 
 @Component({
     selector: 'app-booking-select',
-    imports: [],
+    imports: [BookingSelectCalender],
     templateUrl: './booking-select.html',
     styleUrl: './booking-select.css',
 })

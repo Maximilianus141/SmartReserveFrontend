@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Service } from '../../components/service/service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-service-list',
@@ -8,6 +9,7 @@ import { Service } from '../../components/service/service';
 	styleUrl: './service-list.css',
 })
 export class ServiceList {
+	router = inject(Router);
 	serviceList = signal([
 		{
 			id: 1,
@@ -40,7 +42,8 @@ export class ServiceList {
 	]);
 
 
-	handleServiceId() {
-		throw new Error('Method not implemented.');
+	handleServiceId(event: number) {
+		console.log("WHAAA ", event)
+		this.router.navigate(['/booking-select', event]);
 	}
 }
