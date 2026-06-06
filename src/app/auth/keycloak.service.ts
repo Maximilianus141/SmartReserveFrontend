@@ -1,19 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import Keycloak from 'keycloak-js';
+import { Env } from '../config/env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeycloakService {
+  private readonly env = inject(Env);
   private keycloakInstance: Keycloak | null = null;
 
   constructor() {}
 
   async init(): Promise<boolean> {
     this.keycloakInstance = new Keycloak({
-      url: 'http://localhost:8080', // Default Keycloak URL (can be customized)
-      realm: 'smart-reserve',       // Default realm name
-      clientId: 'smart-reserve-frontend', // Default client ID
+      url: this.env.keycloakUrl,
+      realm: this.env.keycloakRealm,
+      clientId: this.env.keycloakClientId,
     });
 
     try {
