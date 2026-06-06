@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
 	selector: 'app-calender-date',
@@ -9,4 +9,6 @@ import { Component, input } from '@angular/core';
 export class CalenderDate {
 	isEmpty = input<boolean>();
 	date = input<number>();
+
+	clicked = output<number>();
 }

@@ -33,7 +33,11 @@
                 @if (date === 0) {
                     <app-calender-date [isEmpty]="true"></app-calender-date>
                 } @else {
-                    <app-calender-date class="calender-date" [isEmpty]="false" [date]="date"></app-calender-date>
+                    @if (date == selectedDate?.getDate() && curerntlySelectedMonth == selectedDate?.getMonth() && currentlySelectedYear == selectedDate?.getFullYear()) {
+                        <app-calender-date class="gradient-button" (clicked)="dateClicked($event)" [isEmpty]="false" [date]="date"></app-calender-date>
+                    } @else {
+                        <app-calender-date (clicked)="dateClicked($event)" class="calender-date" [isEmpty]="false" [date]="date"></app-calender-date>
+                    }
                 }
             }
         </div>

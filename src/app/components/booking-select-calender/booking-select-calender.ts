@@ -8,6 +8,7 @@ import { CalenderDate } from "../calender-date/calender-date";
 	styleUrl: './booking-select-calender.css',
 })
 export class BookingSelectCalender {
+
 	selectedDate: Date | null = null;
 	curerntlySelectedMonth: number = new Date().getMonth();
 	currentlySelectedYear: number = new Date().getFullYear();
@@ -15,6 +16,10 @@ export class BookingSelectCalender {
 
 
 	dates: number[] = new Array(35).fill(0);
+
+	dateClicked($event: number) {
+		this.selectedDate = new Date(this.currentlySelectedYear, this.curerntlySelectedMonth, $event);
+	}
 
 	resetDates() {
 		this.dates.fill(0);
