@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
 	templateUrl: './booking-select-calender.html',
 	styleUrl: './booking-select-calender.css',
 })
-export class BookingSelectCalender {}
+export class BookingSelectCalender {
+	selectedDate: Date | null = null;
+	curerntlySelectedMonth: number = new Date().getMonth();
+	currentlySelectedYear: number = new Date().getFullYear();
+}
