@@ -58,7 +58,21 @@ export class KeycloakService {
   }
 
   get roles(): string[] {
-    return this.keycloakInstance?.realmAccess?.roles || [];
+    if (!this.keycloakInstance) return [];
+    const realmRoles = this.keycloakInstance.realmAccess?.roles || [];
+    const clientRoles = this.keycloakInstance.resourceAccess?.[this.env.keycloakClientId]?.roles || [];
+    return [...realmRoles, ...clientRoles];
+  }
+
+  hasRole(role: string): boolean {
+    if (!this.keycloakInstance) return false;
+    // Check client-specific roles first
+    const clientRoles = this.keycloakInstance.resourceAccess?.[this.env.keycloakClientId]?.roles || [];
+    if (clientRoles.includes(role)) {
+      return true;
+    }
+    // Fallback to realm-level roles
+    return this.keycloakInstance.hasRealmRole(role);
   }
 
   async refreshToken(minValidity: number = 30): Promise<boolean> {
