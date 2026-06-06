@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from "@angular/router";
+import { KeycloakService } from '../../auth/keycloak.service';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +8,14 @@ import { RouterLink } from "@angular/router";
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
-export class Header {}
+export class Header {
+  protected readonly keycloakService = inject(KeycloakService);
+
+  login(): void {
+    this.keycloakService.login();
+  }
+
+  logout(): void {
+    this.keycloakService.logout({ redirectUri: window.location.origin });
+  }
+}
