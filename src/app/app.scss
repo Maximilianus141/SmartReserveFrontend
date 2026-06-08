@@ -1,0 +1,9 @@
+.app-container {
+    max-width: 64rem; // max-w-5xl (1024px)
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem; // space-y-12
+    padding-top: 1.5rem;
+}

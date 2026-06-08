@@ -9,7 +9,7 @@ import { BookingSelectCalender } from '../../components/booking-select-calender/
 	selector: 'app-booking-select',
 	imports: [BookingSelectCalender],
 	templateUrl: './booking-select.html',
-	styleUrl: './booking-select.css',
+	styleUrl: './booking-select.scss',
 })
 export class BookingSelect {
 	serviceId: Signal<number>;

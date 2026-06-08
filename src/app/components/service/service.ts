@@ -17,7 +17,7 @@ export class Service {
 	service = input<ServiceInfo>({
 		name: 'Service Name',
 		description: 'Service Description',
-		duration: 0,
+		durationSeconds: 0,
 		id: -1,
 	});
 

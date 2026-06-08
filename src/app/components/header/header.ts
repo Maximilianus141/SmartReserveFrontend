@@ -6,7 +6,7 @@ import { KeycloakService } from '../../auth/keycloak.service';
   selector: 'app-header',
   imports: [RouterLink],
   templateUrl: './header.html',
-  styleUrl: './header.css',
+  styleUrl: './header.scss',
 })
 export class Header {
   protected readonly keycloakService = inject(KeycloakService);

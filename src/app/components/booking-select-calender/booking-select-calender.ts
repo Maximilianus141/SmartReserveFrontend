@@ -5,7 +5,7 @@ import { CalenderDate } from "../calender-date/calender-date";
 	selector: 'app-booking-select-calender',
 	imports: [CalenderDate],
 	templateUrl: './booking-select-calender.html',
-	styleUrl: './booking-select-calender.css',
+	styleUrl: './booking-select-calender.scss',
 })
 export class BookingSelectCalender {
 
