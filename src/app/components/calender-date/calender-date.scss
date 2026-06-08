@@ -1,29 +1,18 @@
 :host {
-    display: block;
-    width: 100%;
-    height: 100%;
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 
-.empty-date-slot {
-    padding: 0.625rem 0; // py-2.5
-    opacity: 0;
-}
-
-.date-button {
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: none;
-    border: none;
-    padding: 0.625rem 0;
-    cursor: pointer;
-    border-radius: 0.5rem;
-    color: #1e293b;
-    font-weight: 500;
-    transition: all 0.2s ease;
-
-    &:hover {
-        background-color: rgba(99, 102, 241, 0.1);
-        color: #4f46e5;
-    }
+button {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+	cursor: pointer;
+	outline: none;
 }

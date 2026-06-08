@@ -1,8 +1,8 @@
 @if (isEmpty()) {
-	<div class="empty-date-slot"></div>
+	<div class="py-2.5 opacity-0"></div>
 } @else {
 	<button
-		class="date-button"
+		class="w-full h-full block"
 		(click)="clicked.emit(date() ?? 0)"
 	>
 		{{ date() }}
