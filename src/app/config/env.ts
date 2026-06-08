@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 })
 export class Env {
   readonly production = false;
+
+  readonly apiUrl = 'http://localhost:9090/api';
+
   readonly keycloakUrl = 'http://localhost:8080';
   readonly keycloakRealm = 'smartreserve';
   readonly keycloakClientId = 'smartreserve';
