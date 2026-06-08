@@ -104,7 +104,7 @@
 
 .days-grid {
 	display: grid !important;
-	grid-template-cols: repeat(7, 1fr) !important; // Forces 7-column layout perfectly!
+	grid-template-columns: repeat(7, 1fr) !important; // Forces 7-column layout perfectly!
 	gap: 0.25rem;
 	text-align: center;
 	font-size: 0.75rem;
