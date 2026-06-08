@@ -9,12 +9,17 @@ export const activeMenuServiceId = signal<number | null>(null);
 	selector: 'app-service',
 	imports: [],
 	templateUrl: './service.html',
-	styleUrl: './service.css',
+	styleUrl: './service.scss',
 })
 export class Service {
 	keycloakService = inject(KeycloakService);
 
-	service = input<ServiceInfo>();
+	service = input<ServiceInfo>({
+		name: 'Service Name',
+		description: 'Service Description',
+		durationSeconds: 0,
+		id: -1,
+	});
 
 	activeMenuId = activeMenuServiceId;
 
@@ -27,17 +32,16 @@ export class Service {
 	}
 
 	handleRightClick(event: MouseEvent) {
-		if (!this.keycloakService.hasRole('ROLE_admin')) {
-			return;
+		if (this.keycloakService.hasRole('ROLE_admin')) {
+			event.preventDefault(); // Stop default browser menu
+			event.stopPropagation(); // Prevents document:click from firing instantly
+
+			// Set the coordinates for THIS specific instance
+			this.menuPosition.set({ x: event.clientX, y: event.clientY });
+
+			// Tell the global state that THIS service's menu is the open one
+			activeMenuServiceId.set(this.service()?.id ?? -1);
 		}
-		event.preventDefault(); // Stop default browser menu
-		event.stopPropagation(); // Prevents document:click from firing instantly
-
-		// Set the coordinates for THIS specific instance
-		this.menuPosition.set({ x: event.clientX, y: event.clientY });
-
-		// Tell the global state that THIS service's menu is the open one
-		activeMenuServiceId.set(this.service()?.id ?? -1);
 	}
 
 	@HostListener('document:click')

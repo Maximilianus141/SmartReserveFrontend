@@ -6,7 +6,7 @@ import { Header } from './components/header/header';
 	selector: 'app-root',
 	imports: [RouterOutlet, Header],
 	templateUrl: './app.html',
-	styleUrl: './app.css',
+	styleUrl: './app.scss',
 })
 export class App {
 	protected readonly title = signal('SmartReserveFrontend');

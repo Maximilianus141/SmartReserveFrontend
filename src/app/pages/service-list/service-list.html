@@ -1,12 +1,10 @@
-<div class="max-w-6xl mx-auto my-12 px-4">
-	<div class="text-center mb-8">
-		<h2 class="text-xs font-bold tracking-widest text-slate-600 uppercase">Our Offerings</h2>
-		<p class="text-2xl font-bold text-slate-900 mt-1">Select a Service Below</p>
+<div class="service-list-container">
+	<div class="list-header">
+		<h2 class="sub-title">Our Offerings</h2>
+		<p class="main-title">Select a Service Below</p>
 	</div>
 
-	<div
-		class="columns-1 sm:columns-2 lg:columns-4 gap-4 space-y-4 [column-fill:_balance] box-border mx-auto"
-	>
+	<div class="services-grid">
 		@for (service of serviceList(); track $index) {
 			<app-service
 				[service]="service"

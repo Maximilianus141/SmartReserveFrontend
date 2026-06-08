@@ -1,32 +1,28 @@
-<header class="text-center">
+<header class="app-header">
 	<!-- TRANSPARENT & BLURRY NAVBAR -->
-	<nav
-		class="fixed top-0 left-0 right-0 z-50 bg-white/60 backdrop-blur-md border-b border-white/20 shadow-sm"
-	>
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+	<nav class="nav-bar">
+		<div class="nav-container">
 			<!-- Left: Branding / Title -->
-			<div class="flex flex-col cursor-pointer" routerLink="/">
-				<span class="text-lg font-bold tracking-tight text-slate-950 sm:text-xl">SmartReserve</span>
+			<div class="brand" routerLink="/">
+				<span class="brand-name">SmartReserve</span>
 			</div>
 
-			<!-- Right: Decorative Quick Links / Status (Optional helper icons) -->
-			<div class="flex items-center space-x-4 text-sm font-medium text-slate-600">
-				<span
-					class="flex items-center gap-1.5 bg-emerald-50/80 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm"
-				>
-					<span class="w-1.5 h-1.5 bg-emerald-600 rounded-full animate-pulse"></span>
+			<!-- Right: Decorative Quick Links / Status -->
+			<div class="nav-actions">
+				<span class="status-badge">
+					<span class="status-dot animate-pulse"></span>
 					Booking Active
 				</span>
 
 				@if (keycloakService.isLoggedIn) {
-					<span class="text-slate-800 font-semibold text-xs flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full">
+					<span class="username-badge">
 						Nyaa, {{ keycloakService.username }}! :3
 					</span>
-					<button (click)="logout()" class="cursor-pointer bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-semibold">
+					<button (click)="logout()" class="btn btn-logout">
 						Logout
 					</button>
 				} @else {
-					<button (click)="login()" class="cursor-pointer bg-sky-50 hover:bg-sky-100 text-sky-600 px-3 py-1 rounded-full text-xs font-semibold">
+					<button (click)="login()" class="btn btn-login">
 						Login
 					</button>
 				}
@@ -34,6 +30,6 @@
 		</div>
 	</nav>
 
-	<!-- IMPORTANT: Add this spacer right below the nav so your main content doesn't get hidden underneath the fixed navbar -->
-	<div class="h-16"></div>
+	<!-- Spacer below fixed navbar -->
+	<div class="nav-spacer"></div>
 </header>

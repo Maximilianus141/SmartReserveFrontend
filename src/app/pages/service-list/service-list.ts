@@ -8,7 +8,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 	selector: 'app-service-list',
 	imports: [Service],
 	templateUrl: './service-list.html',
-	styleUrl: './service-list.css',
+	styleUrl: './service-list.scss',
 })
 export class ServiceList {
 	router = inject(Router);

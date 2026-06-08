@@ -1,50 +1,57 @@
-<div class="md:col-span-3 space-y-4 relative px-2">
-    
-    <div class="flex items-center justify-between px-2 mb-2">
-        <span class="text-sm font-bold text-slate-800 tracking-tight">{{months[curerntlySelectedMonth]}} {{currentlySelectedYear}}</span>
-        
-        <div class="flex items-center space-x-1 bg-white/40 p-0.5 rounded-xl border border-white/60 shadow-sm text-xs">
-            <button (click)="prevMonth()" class="px-2.5 py-1 text-slate-500 hover:text-indigo-600 font-medium rounded-lg hover:bg-white/80 transition">
-                Prev
-            </button>
-            <div class="h-3 w-[1px] bg-slate-300"></div>
-            <button (click)="nextMonth()" class="px-2.5 py-1 text-slate-500 hover:text-indigo-600 font-medium rounded-lg hover:bg-white/80 transition">
-                Next
-            </button>
-        </div>
-    </div>
+<div class="calender-card">
+	<div class="calender-header">
+		<span class="month-title">{{ months[curerntlySelectedMonth] }} {{ currentlySelectedYear }}</span>
 
-    <div class="relative flex items-center justify-between group">
-        
-        <button (click)="prevMonth()" class="absolute -left-4 z-10 p-2 text-slate-400 hover:text-indigo-600 bg-white/80 hover:bg-white border border-white/60 rounded-full shadow-md backdrop-blur-sm opacity-80 hover:opacity-100 transition duration-200">
-            <i class="fa-solid fa-angle-left font-bold" ><</i>
-        </button>
+		<div class="header-nav">
+			<button (click)="prevMonth()" class="nav-btn">Prev</button>
+			<div class="nav-divider"></div>
+			<button (click)="nextMonth()" class="nav-btn">Next</button>
+		</div>
+	</div>
 
-        <div class="grid grid-cols-7 gap-1 text-center text-xs w-full px-5">
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">MO</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">DI</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">MI</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">DO</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">FR</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">SA</div>
-            <div class="font-semibold text-slate-400 py-1 uppercase tracking-wider">SO</div>
+	<div class="calender-body">
+		<button (click)="prevMonth()" class="arrow-btn arrow-left">
+			<i class="fa-solid fa-angle-left font-bold"><</i>
+		</button>
 
-            @for(date of dates; track $index) {
-                @if (date === 0) {
-                    <app-calender-date [isEmpty]="true"></app-calender-date>
-                } @else {
-                    @if (date == selectedDate?.getDate() && curerntlySelectedMonth == selectedDate?.getMonth() && currentlySelectedYear == selectedDate?.getFullYear()) {
-                        <app-calender-date class="gradient-button" (clicked)="dateClicked($event)" [isEmpty]="false" [date]="date"></app-calender-date>
-                    } @else {
-                        <app-calender-date (clicked)="dateClicked($event)" class="calender-date" [isEmpty]="false" [date]="date"></app-calender-date>
-                    }
-                }
-            }
-        </div>
+		<div class="days-grid">
+			<div class="weekday-header">MO</div>
+			<div class="weekday-header">DI</div>
+			<div class="weekday-header">MI</div>
+			<div class="weekday-header">DO</div>
+			<div class="weekday-header">FR</div>
+			<div class="weekday-header">SA</div>
+			<div class="weekday-header">SO</div>
 
-        <button (click)="nextMonth()" class="absolute -right-4 z-10 p-2 text-slate-400 hover:text-indigo-600 bg-white/80 hover:bg-white border border-white/60 rounded-full shadow-md backdrop-blur-sm opacity-80 hover:opacity-100 transition duration-200">
-            <i class="fa-solid fa-angle-right font-bold">></i>
-        </button>
-        
-    </div>
+			@for (date of dates; track $index) {
+				@if (date === 0) {
+					<app-calender-date [isEmpty]="true"></app-calender-date>
+				} @else {
+					@if (
+						date == selectedDate?.getDate() &&
+						curerntlySelectedMonth == selectedDate?.getMonth() &&
+						currentlySelectedYear == selectedDate?.getFullYear()
+					) {
+						<app-calender-date
+							class="gradient-button"
+							(clicked)="dateClicked($event)"
+							[isEmpty]="false"
+							[date]="date"
+						></app-calender-date>
+					} @else {
+						<app-calender-date
+							(clicked)="dateClicked($event)"
+							class="calender-date"
+							[isEmpty]="false"
+							[date]="date"
+						></app-calender-date>
+					}
+				}
+			}
+		</div>
+
+		<button (click)="nextMonth()" class="arrow-btn arrow-right">
+			<i class="fa-solid fa-angle-right font-bold">></i>
+		</button>
+	</div>
 </div>
