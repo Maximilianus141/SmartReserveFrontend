@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { CalenderDate } from "../calender-date/calender-date";
 
 @Component({
@@ -10,6 +10,8 @@ import { CalenderDate } from "../calender-date/calender-date";
 export class BookingSelectCalender {
 
 	selectedDate: Date | null = null;
+	outputDate =  output<Date>();
+
 	curerntlySelectedMonth: number = new Date().getMonth();
 	currentlySelectedYear: number = new Date().getFullYear();
 	months: string[] = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
@@ -19,6 +21,7 @@ export class BookingSelectCalender {
 
 	dateClicked($event: number) {
 		this.selectedDate = new Date(this.currentlySelectedYear, this.curerntlySelectedMonth, $event);
+		this.outputDate.emit(this.selectedDate);
 	}
 
 	resetDates() {

@@ -17,7 +17,6 @@ export class ServiceList {
 
 
 	handleServiceId(event: number) {
-		console.log("WHAAA ", event)
 		this.router.navigate(['/booking-select', event]);
 	}
 }

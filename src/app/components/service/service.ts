@@ -14,12 +14,7 @@ export const activeMenuServiceId = signal<number | null>(null);
 export class Service {
 	keycloakService = inject(KeycloakService);
 
-	service = input<ServiceInfo>({
-		name: 'Service Name',
-		description: 'Service Description',
-		durationSeconds: 0,
-		id: -1,
-	});
+	service = input<ServiceInfo>();
 
 	activeMenuId = activeMenuServiceId;
 
@@ -27,8 +22,7 @@ export class Service {
 	menuPosition = signal({ x: 0, y: 0 });
 
 	handleClick() {
-		this.serviceId.emit(this.service().id);
-		console.log('Emitted service ID: ', this.service().id);
+		this.serviceId.emit(this.service()?.id ?? -1);
 		activeMenuServiceId.set(null); // Close the menu
 	}
 
@@ -43,7 +37,7 @@ export class Service {
 		this.menuPosition.set({ x: event.clientX, y: event.clientY });
 
 		// Tell the global state that THIS service's menu is the open one
-		activeMenuServiceId.set(this.service().id);
+		activeMenuServiceId.set(this.service()?.id ?? -1);
 	}
 
 	@HostListener('document:click')
