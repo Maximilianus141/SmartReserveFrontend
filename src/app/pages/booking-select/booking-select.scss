@@ -35,11 +35,11 @@
 
 .booking-grid {
     display: grid;
-    grid-template-cols: 1fr;
+    grid-template-columns: 1fr;
     gap: 1.5rem;
 
     @media (min-width: 768px) {
-        grid-template-cols: repeat(5, minmax(0, 1fr)); // grid-cols-5
+        grid-template-columns: repeat(5, minmax(0, 1fr)); // grid-cols-5
     }
 }
 
@@ -75,7 +75,7 @@
 
 .slots-grid {
     display: grid;
-    grid-template-cols: repeat(2, minmax(0, 1fr)); // grid-cols-2
+    grid-template-columns: repeat(2, minmax(0, 1fr)); // grid-cols-2
     gap: 0.5rem; // gap-2
     max-height: 240px; // max-h-[240px]
     overflow-y: auto;
