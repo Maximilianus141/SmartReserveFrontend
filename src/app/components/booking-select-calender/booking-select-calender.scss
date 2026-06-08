@@ -92,6 +92,9 @@
 		font-style: normal;
 		font-weight: bold;
 	}
+	@media (max-width: 767px) {
+		display: none;
+	}
 }
 
 .arrow-left {
@@ -121,7 +124,8 @@
 }
 
 // Host element containers in grid flow
-.calender-date, .gradient-button {
+.calender-date,
+.gradient-button {
 	display: block;
 	width: 100%;
 	height: 100%;
