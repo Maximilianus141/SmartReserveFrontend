@@ -1,5 +1,6 @@
-import { Component, HostListener, input, output, signal } from '@angular/core';
+import { Component, HostListener, inject, input, output, signal } from '@angular/core';
 import { ServiceInfo } from '../../dataaccess/service-info';
+import { KeycloakService } from '../../auth/keycloak.service';
 
 // Track the ID of the currently open service menu (null if all are closed)
 export const activeMenuServiceId = signal<number | null>(null);
@@ -11,6 +12,8 @@ export const activeMenuServiceId = signal<number | null>(null);
     styleUrl: './service.css',
 })
 export class Service {
+	keycloakService = inject(KeycloakService);
+
     service = input<ServiceInfo>({
         name: 'Service Name',
         description: 'Service Description',
@@ -30,6 +33,9 @@ export class Service {
     }
 
     handleRightClick(event: MouseEvent) {
+		if (!this.keycloakService.hasRole('ROLE_admin')) {
+			return;
+		}
         event.preventDefault(); // Stop default browser menu
         event.stopPropagation(); // Prevents document:click from firing instantly
 
