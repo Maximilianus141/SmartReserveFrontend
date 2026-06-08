@@ -9,7 +9,7 @@ describe('BookingSelect', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [BookingSelect],
-			providers: [provideRouter([])]
+			providers: [provideRouter([])],
 		}).compileComponents();
 
 		fixture = TestBed.createComponent(BookingSelect);

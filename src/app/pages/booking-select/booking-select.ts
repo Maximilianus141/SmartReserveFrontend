@@ -27,7 +27,5 @@ export class BookingSelect {
 		);
 	}
 
-	dateSelected() {
-		
-	}
+	dateSelected() {}
 }

@@ -15,7 +15,6 @@ export class ServiceList {
 	serviceService = inject(ServiceService);
 	serviceList = toSignal(this.serviceService.getMaterials());
 
-
 	handleServiceId(event: number) {
 		this.router.navigate(['/booking-select', event]);
 	}

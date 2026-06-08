@@ -1,8 +1,4 @@
-<div
-	(contextmenu)="handleRightClick($event)"
-	(click)="handleClick()"
-	class="service-card"
->
+<div (contextmenu)="handleRightClick($event)" (click)="handleClick()" class="service-card">
 	<div class="card-header">
 		<div class="icon-wrapper">
 			<i class="fa-solid fa-magic-wand-sparkles text-sm"></i>
@@ -21,27 +17,13 @@
 </div>
 
 @if (activeMenuId() === service().id) {
-	<div
-		class="context-menu"
-		[style.top.px]="menuPosition().y"
-		[style.left.px]="menuPosition().x"
-	>
+	<div class="context-menu" [style.top.px]="menuPosition().y" [style.left.px]="menuPosition().x">
 		<ul class="context-menu-list">
 			<li class="context-menu-item">
-				<button
-					(click)="handleClick()"
-					class="context-btn"
-				>
-					Select Service
-				</button>
+				<button (click)="handleClick()" class="context-btn">Select Service</button>
 			</li>
 			<li class="context-menu-item border-t">
-				<button
-					(click)="activeMenuId.set(null)"
-					class="context-btn btn-danger"
-				>
-					Cancel
-				</button>
+				<button (click)="activeMenuId.set(null)" class="context-btn btn-danger">Cancel</button>
 			</li>
 		</ul>
 	</div>

@@ -15,16 +15,10 @@
 				</span>
 
 				@if (keycloakService.isLoggedIn) {
-					<span class="username-badge">
-						Nyaa, {{ keycloakService.username }}! :3
-					</span>
-					<button (click)="logout()" class="btn btn-logout">
-						Logout
-					</button>
+					<span class="username-badge"> Nyaa, {{ keycloakService.username }}! :3 </span>
+					<button (click)="logout()" class="btn btn-logout">Logout</button>
 				} @else {
-					<button (click)="login()" class="btn btn-login">
-						Login
-					</button>
+					<button (click)="login()" class="btn btn-login">Login</button>
 				}
 			</div>
 		</div>
