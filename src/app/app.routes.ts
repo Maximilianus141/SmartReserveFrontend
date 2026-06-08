@@ -11,6 +11,6 @@ export const routes: Routes = [
     {
         path: 'booking-select/:serviceId',
         component: BookingSelect,
-        canActivate: [authGuard],
+        // canActivate: [authGuard],
     }
 ];
