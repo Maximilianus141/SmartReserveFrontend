@@ -1,0 +1,70 @@
+<h2>{{ isEditMode ? 'Edit Service' : 'Add New Service' }}</h2>
+<p>{{ isEditMode ? 'Modify details for this service' : 'Fill in the details below to create a service mapping.' }}</p>
+
+<form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
+  
+  <div>
+    <label for="name">Service Name</label>
+    <input id="name" type="text" formControlName="name">
+    
+    @if (serviceForm.get('name')?.touched && serviceForm.get('name')?.errors) {
+      <div>
+        @if (serviceForm.get('name')?.errors?.['required']) {
+          <small>Name is required.</small>
+        }
+        @if (serviceForm.get('name')?.errors?.['minlength']) {
+          <small>Name must be at least 3 characters long.</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+    
+    @if (serviceForm.get('description')?.touched && serviceForm.get('description')?.errors?.['required']) {
+      <div>
+        <small>Description is required.</small>
+      </div>
+    }
+  </div>
+
+  <div>
+    <label for="durationMinutes">Duration (Minutes)</label>
+    <input id="durationMinutes" type="number" formControlName="durationMinutes">
+    
+    @if (serviceForm.get('durationMinutes')?.touched && serviceForm.get('durationMinutes')?.errors) {
+      <div>
+        @if (serviceForm.get('durationMinutes')?.errors?.['required']) {
+          <small>Duration is required.</small>
+        }
+        @if (serviceForm.get('durationMinutes')?.errors?.['min']) {
+          <small>Duration must be at least 1 minute.</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <label for="afterServiceBreakDurationMinutes">After-Service Break (Minutes)</label>
+    <input id="afterServiceBreakDurationMinutes" type="number" formControlName="afterServiceBreakDurationMinutes">
+    
+    @if (serviceForm.get('afterServiceBreakDurationMinutes')?.touched && serviceForm.get('afterServiceBreakDurationMinutes')?.errors) {
+      <div>
+        @if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['required']) {
+          <small>Break duration is required.</small>
+        }
+        @if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['min']) {
+          <small>Break cannot be negative.</small>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <button type="button" (click)="onCancel()">Cancel</button>
+    <button type="submit" [disabled]="serviceForm.invalid">Save Service</button>
+  </div>
+
+</form>

@@ -1,10 +1,7 @@
 @if (isEmpty()) {
 	<div class="py-2.5 opacity-0"></div>
 } @else {
-	<button
-		class="w-full h-full block"
-		(click)="clicked.emit(date() ?? 0)"
-	>
+	<button class="w-full h-full block" (click)="clicked.emit(date() ?? 0)">
 		{{ date() }}
 	</button>
 }

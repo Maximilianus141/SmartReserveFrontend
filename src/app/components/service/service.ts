@@ -18,16 +18,24 @@ export class Service {
 		name: 'Service Name',
 		description: 'Service Description',
 		durationSeconds: 0,
+		afterServiceBreakDurationSeconds: 0,
 		id: -1,
 	});
 
 	activeMenuId = activeMenuServiceId;
 
-	serviceId = output<number>();
+	bookServiceId = output<number>();
+	editServiceId = output<number>();
+
 	menuPosition = signal({ x: 0, y: 0 });
 
-	handleClick() {
-		this.serviceId.emit(this.service()?.id ?? -1);
+	handleSelectService() {
+		this.bookServiceId.emit(this.service()?.id ?? -1);
+		activeMenuServiceId.set(null); // Close the menu
+	}
+
+	handleEditService() {
+		this.editServiceId.emit(this.service()?.id ?? -1);
 		activeMenuServiceId.set(null); // Close the menu
 	}
 

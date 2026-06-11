@@ -1,5 +1,5 @@
 import { Component, output } from '@angular/core';
-import { CalenderDate } from "../calender-date/calender-date";
+import { CalenderDate } from '../calender-date/calender-date';
 
 @Component({
 	selector: 'app-booking-select-calender',
@@ -8,14 +8,25 @@ import { CalenderDate } from "../calender-date/calender-date";
 	styleUrl: './booking-select-calender.scss',
 })
 export class BookingSelectCalender {
-
 	selectedDate: Date | null = null;
-	outputDate =  output<Date>();
+	outputDate = output<Date>();
 
 	curerntlySelectedMonth: number = new Date().getMonth();
 	currentlySelectedYear: number = new Date().getFullYear();
-	months: string[] = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-
+	months: string[] = [
+		'Januar',
+		'Februar',
+		'März',
+		'April',
+		'Mai',
+		'Juni',
+		'Juli',
+		'August',
+		'September',
+		'Oktober',
+		'November',
+		'Dezember',
+	];
 
 	dates: number[] = new Array(35).fill(0);
 
@@ -58,15 +69,16 @@ export class BookingSelectCalender {
 		let today = now.getDay() - 1;
 		if (today < 0) {
 			today = 6;
-		}		
+		}
 
-		const daysInMonth = new Date(this.currentlySelectedYear, this.curerntlySelectedMonth + 1, 0).getDate();
+		const daysInMonth = new Date(
+			this.currentlySelectedYear,
+			this.curerntlySelectedMonth + 1,
+			0,
+		).getDate();
 
 		for (let i = 0; i < daysInMonth; i++) {
 			this.dates[today + i] = i + 1;
 		}
 	}
-
-
-
 }
