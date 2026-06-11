@@ -4,4 +4,5 @@ export interface ServiceInfo {
 	description: string;
 	durationSeconds: number; // Duration in seconds
 	afterServiceBreakDurationSeconds: number; // Break duration after the service in seconds
+	wholeDurationSeconds?: number; // Total duration including break in seconds
 }
