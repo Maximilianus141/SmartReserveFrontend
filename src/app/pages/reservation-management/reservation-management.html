@@ -1,76 +1,169 @@
-<h2>Reservations Management</h2>
+<div class="reservations-container">
+	<div class="list-header">
+		<h2 class="sub-title">Admin Dashboard</h2>
+		<p class="main-title">Reservations Management</p>
+	</div>
 
-@for (reservation of reservations(); track reservation.id) {
-  <div class="reservation-card">
-    
-    @if (editingReservationId() === reservation.id && isAdmin()) {
-      <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()">
-        <h3>Editing Reservation #{{ reservation.id }}</h3>
-        
-        <label>Status: </label>
-        <input formControlName="status" type="text" />
+	<div class="reservations-list">
+		@for (reservation of reservations(); track reservation.id) {
+			<div class="reservation-card" [class.editing]="editingReservationId() === reservation.id">
+				@if (editingReservationId() === reservation.id && isAdmin()) {
+					<form [formGroup]="reservationForm" (ngSubmit)="saveReservation()" class="edit-form">
+						<div class="edit-card-header">
+							<h3 class="edit-card-title">Editing Reservation #{{ reservation.id }}</h3>
+						</div>
 
-        <label>Start Time: </label>
-        <input formControlName="startTime" type="text" />
+						<div class="form-grid">
+							<div class="form-group">
+								<label class="form-label">Status</label>
+								<input
+									formControlName="status"
+									type="text"
+									class="form-input"
+									placeholder="e.g. PENDING, CONFIRMED"
+								/>
+							</div>
 
-        <label>End Time: </label>
-        <input formControlName="endTime" type="text" />
+							<div class="form-group">
+								<label class="form-label">Start Time</label>
+								<input formControlName="startTime" type="text" class="form-input" />
+							</div>
 
-        <div formGroupName="service">
-          <h4>Select Service</h4>
-          <label>Choose Service: </label>
-          <select formControlName="id">
-            <option [value]="null" disabled>-- Select a Service --</option>
-            @for (srv of availableServices(); track srv.id) {
-              <option [value]="srv.id">{{ srv.name }} ({{ srv.wholeDurationSeconds }}s)</option>
-            }
-          </select>
-          
-          <p><i>Description: {{ reservationForm.get('service.description')?.value }}</i></p>
-        </div>
+							<div class="form-group">
+								<label class="form-label">End Time</label>
+								<input formControlName="endTime" type="text" class="form-input" />
+							</div>
+						</div>
 
-        @if (reservationForm.contains('user')) {
-          <div formGroupName="user">
-            <h4>Edit User Details</h4>
-            <label>Username: </label>
-            <input formControlName="username" type="text" />
+						<div formGroupName="service" class="form-section">
+							<h4 class="section-divider-title">Service Selection</h4>
 
-            <label>Email: </label>
-            <input formControlName="email" type="email" />
-          </div>
-        }
+							<div class="form-group">
+								<label class="form-label">Choose Service</label>
+								<div class="select-wrapper">
+									<select formControlName="id" class="form-select">
+										<option [value]="null" disabled>-- Select a Service --</option>
+										@for (srv of availableServices(); track srv.id) {
+											<option [value]="srv.id">
+												{{ srv.name }} ({{ srv.wholeDurationSeconds / 60 }} mins)
+											</option>
+										}
+									</select>
+								</div>
+							</div>
 
-        <br />
-        <button type="submit" [disabled]="reservationForm.invalid">Save Changes</button>
-        <button type="button" (click)="cancelEdit()">Cancel</button>
-      </form>
+							@if (reservationForm.get('service.description')?.value) {
+								<div class="info-box">
+									<span class="info-label">Description:</span>
+									<span class="info-text">{{
+										reservationForm.get('service.description')?.value
+									}}</span>
+								</div>
+							}
+						</div>
 
-    } @else {
-      <h3>Reservation #{{ reservation.id }}</h3>
-      <p>Status: {{ reservation.status }}</p>
-      <p>Time: {{ reservation.startTime }} - {{ reservation.endTime }}</p>
-      
-      <h4>Service Details</h4>
-      <ul>
-        <li>Name: {{ reservation.service.name }}</li>
-        <li>Description: {{ reservation.service.description }}</li>
-        <li>Duration: {{ reservation.service.wholeDurationSeconds }}s</li>
-      </ul>
+						@if (reservationForm.contains('user')) {
+							<div formGroupName="user" class="form-section">
+								<h4 class="section-divider-title">User Details</h4>
 
-      @if (reservation.user) {
-        <h4>User Details</h4>
-        <ul>
-          <li>Username: {{ reservation.user.username }}</li>
-          <li>Email: {{ reservation.user.email }}</li>
-        </ul>
-      }
+								<div class="form-grid">
+									<div class="form-group">
+										<label class="form-label">Username</label>
+										<input formControlName="username" type="text" class="form-input" />
+									</div>
 
-      @if (isAdmin()) {
-        <button (click)="startEdit(reservation)">Modify Reservation</button>
-      }
-    }
-  </div>
-  <hr />
-} @empty {
-  <p>No reservations available.</p>
-}
+									<div class="form-group">
+										<label class="form-label">Email</label>
+										<input formControlName="email" type="email" class="form-input" />
+									</div>
+								</div>
+							</div>
+						}
+
+						<div class="form-actions">
+							<button type="button" class="btn-secondary" (click)="cancelEdit()">Cancel</button>
+							<button type="submit" class="btn-primary" [disabled]="reservationForm.invalid">
+								Save Changes
+							</button>
+						</div>
+					</form>
+				} @else {
+					<div class="card-view-header">
+						<div class="card-title-group">
+							<span class="reservation-number">#{{ reservation.id }}</span>
+							<h3 class="card-main-title">Reservation Details</h3>
+						</div>
+						<span class="status-badge" [class]="'status-' + reservation.status.toLowerCase()">
+							{{ reservation.status }}
+						</span>
+					</div>
+
+					<div class="card-view-content">
+						<div class="time-info-row">
+							<i class="fa-solid fa-clock clock-icon"></i>
+							<div class="time-details">
+								<span class="time-label">Scheduled Time:</span>
+								<span class="time-range"
+									>{{ reservation.startTime | date: 'medium' }} -
+									{{ reservation.endTime | date: 'mediumTime' }}</span
+								>
+							</div>
+						</div>
+
+						<div class="details-grid">
+							<div class="details-section">
+								<div class="section-header-row">
+									<i class="fa-solid fa-magic-wand-sparkles section-icon"></i>
+									<h4 class="details-section-title">Service Details</h4>
+								</div>
+								<div class="details-box">
+									<div class="detail-item">
+										<span class="detail-label">Name:</span>
+										<span class="detail-value highlighted">{{ reservation.service.name }}</span>
+									</div>
+									<div class="detail-item">
+										<span class="detail-label">Duration:</span>
+										<span class="detail-value"
+											>{{ reservation.service.wholeDurationSeconds / 60 }} Minutes</span
+										>
+									</div>
+									<div class="detail-item description-item">
+										<span class="detail-label">Description:</span>
+										<p class="detail-desc">{{ reservation.service.description }}</p>
+									</div>
+								</div>
+							</div>
+
+							@if (reservation.user) {
+								<div class="details-section">
+									<div class="section-header-row">
+										<i class="fa-solid fa-user section-icon"></i>
+										<h4 class="details-section-title">User Details</h4>
+									</div>
+									<div class="details-box">
+										<div class="detail-item">
+											<span class="detail-label">Username:</span>
+											<span class="detail-value">{{ reservation.user.username }}</span>
+										</div>
+										<div class="detail-item">
+											<span class="detail-label">Email:</span>
+											<span class="detail-value email-value">{{ reservation.user.email }}</span>
+										</div>
+									</div>
+								</div>
+							}
+						</div>
+					</div>
+
+					@if (isAdmin()) {
+						<div class="card-footer-actions">
+							<button class="btn-modify" (click)="startEdit(reservation)">
+								<i class="fa-solid fa-pen-to-square"></i> Modify Reservation
+							</button>
+						</div>
+					}
+				}
+			</div>
+		}
+	</div>
+</div>

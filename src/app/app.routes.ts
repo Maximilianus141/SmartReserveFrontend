@@ -25,5 +25,5 @@ export const routes: Routes = [
 		component: ReservationManagement,
 		canActivate: [authGuard],
 		data: { roles: ['ROLE_guest'] },
-	}
+	},
 ];
