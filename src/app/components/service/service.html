@@ -1,4 +1,4 @@
-<div (contextmenu)="handleRightClick($event)" (click)="handleClick()" class="service-card">
+<div (contextmenu)="handleRightClick($event)" (click)="handleSelectService()" class="service-card">
 	<div class="card-header">
 		<div class="icon-wrapper">
 			<i class="fa-solid fa-magic-wand-sparkles text-sm"></i>
@@ -20,7 +20,10 @@
 	<div class="context-menu" [style.top.px]="menuPosition().y" [style.left.px]="menuPosition().x">
 		<ul class="context-menu-list">
 			<li class="context-menu-item">
-				<button (click)="handleClick()" class="context-btn">Select Service</button>
+				<button (click)="handleSelectService()" class="context-btn">Select Service</button>
+			</li>
+			<li class="context-menu-item">
+				<button (click)="handleEditService()" class="context-btn">Edit Service</button>
 			</li>
 			<li class="context-menu-item border-t">
 				<button (click)="activeMenuId.set(null)" class="context-btn btn-danger">Cancel</button>
