@@ -16,8 +16,6 @@ import { AvailabilityService } from '../../services/availability.service';
 export class BookingSelect {
 	availabilityService = inject(AvailabilityService);
 
-
-
 	selectedDate: Date | null = null;
 
 	serviceId: Signal<number>;
@@ -33,12 +31,13 @@ export class BookingSelect {
 			),
 			{ initialValue: -1 },
 		);
-		
 	}
 
 	dateSelected(date: Date) {
-		this.availabilityService.getAvailability(date.toISOString().split('T')[0]).subscribe((availability) => {
-			console.log('Verfügbarkeiten für den ausgewählten Tag:', availability);
-		});
+		this.availabilityService
+			.getAvailability(date.toISOString().split('T')[0])
+			.subscribe((availability) => {
+				console.log('Verfügbarkeiten für den ausgewählten Tag:', availability);
+			});
 	}
 }

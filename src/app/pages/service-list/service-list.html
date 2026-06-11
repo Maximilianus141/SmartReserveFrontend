@@ -6,7 +6,9 @@
 
 	@if (keycloakService.hasRole('ROLE_admin')) {
 		<div class="admin-actions">
-			<button class="btn btn-primary" (click)="router.navigate(['/service/new'])">Add New Service</button>
+			<button class="btn btn-primary" (click)="router.navigate(['/service/new'])">
+				Add New Service
+			</button>
 		</div>
 	}
 

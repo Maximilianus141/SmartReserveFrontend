@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
 	selector: 'app-service-edit',
-	imports: [ ReactiveFormsModule ],
+	imports: [ReactiveFormsModule],
 	templateUrl: './service-edit.html',
 	styleUrl: './service-edit.scss',
 })

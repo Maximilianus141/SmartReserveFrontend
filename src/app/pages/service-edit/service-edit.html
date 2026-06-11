@@ -1,70 +1,126 @@
-<h2>{{ isEditMode ? 'Edit Service' : 'Add New Service' }}</h2>
-<p>{{ isEditMode ? 'Modify details for this service' : 'Fill in the details below to create a service mapping.' }}</p>
+<div class="edit-container">
+	<div class="edit-card">
+		<div class="edit-header">
+			<h2 class="section-title">{{ isEditMode ? 'Edit Service' : 'Add New Service' }}</h2>
+			<p class="section-subtitle">
+				{{
+					isEditMode
+						? 'Modify details for this service'
+						: 'Fill in the details below to create a service mapping.'
+				}}
+			</p>
+		</div>
 
-<form [formGroup]="serviceForm" (ngSubmit)="onSubmit()">
-  
-  <div>
-    <label for="name">Service Name</label>
-    <input id="name" type="text" formControlName="name">
-    
-    @if (serviceForm.get('name')?.touched && serviceForm.get('name')?.errors) {
-      <div>
-        @if (serviceForm.get('name')?.errors?.['required']) {
-          <small>Name is required.</small>
-        }
-        @if (serviceForm.get('name')?.errors?.['minlength']) {
-          <small>Name must be at least 3 characters long.</small>
-        }
-      </div>
-    }
-  </div>
+		<form [formGroup]="serviceForm" (ngSubmit)="onSubmit()" class="edit-form">
+			<div class="form-group">
+				<label for="name" class="form-label">Service Name</label>
+				<div class="input-wrapper">
+					<input
+						id="name"
+						type="text"
+						formControlName="name"
+						class="form-input"
+						placeholder="e.g. Therapeutic Massage"
+					/>
+				</div>
 
-  <div>
-    <label for="description">Description</label>
-    <textarea id="description" formControlName="description"></textarea>
-    
-    @if (serviceForm.get('description')?.touched && serviceForm.get('description')?.errors?.['required']) {
-      <div>
-        <small>Description is required.</small>
-      </div>
-    }
-  </div>
+				@if (serviceForm.get('name')?.touched && serviceForm.get('name')?.errors) {
+					<div class="error-msg">
+						@if (serviceForm.get('name')?.errors?.['required']) {
+							<small>Name is required.</small>
+						}
+						@if (serviceForm.get('name')?.errors?.['minlength']) {
+							<small>Name must be at least 3 characters long.</small>
+						}
+					</div>
+				}
+			</div>
 
-  <div>
-    <label for="durationMinutes">Duration (Minutes)</label>
-    <input id="durationMinutes" type="number" formControlName="durationMinutes">
-    
-    @if (serviceForm.get('durationMinutes')?.touched && serviceForm.get('durationMinutes')?.errors) {
-      <div>
-        @if (serviceForm.get('durationMinutes')?.errors?.['required']) {
-          <small>Duration is required.</small>
-        }
-        @if (serviceForm.get('durationMinutes')?.errors?.['min']) {
-          <small>Duration must be at least 1 minute.</small>
-        }
-      </div>
-    }
-  </div>
+			<div class="form-group">
+				<label for="description" class="form-label">Description</label>
+				<div class="input-wrapper">
+					<textarea
+						id="description"
+						formControlName="description"
+						class="form-textarea"
+						placeholder="Describe the wonderful service benefits..."
+					></textarea>
+				</div>
 
-  <div>
-    <label for="afterServiceBreakDurationMinutes">After-Service Break (Minutes)</label>
-    <input id="afterServiceBreakDurationMinutes" type="number" formControlName="afterServiceBreakDurationMinutes">
-    
-    @if (serviceForm.get('afterServiceBreakDurationMinutes')?.touched && serviceForm.get('afterServiceBreakDurationMinutes')?.errors) {
-      <div>
-        @if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['required']) {
-          <small>Break duration is required.</small>
-        }
-        @if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['min']) {
-          <small>Break cannot be negative.</small>
-        }
-      </div>
-    }
-  </div>
+				@if (
+					serviceForm.get('description')?.touched &&
+					serviceForm.get('description')?.errors?.['required']
+				) {
+					<div class="error-msg">
+						<small>Description is required.</small>
+					</div>
+				}
+			</div>
 
-  <div>
-    <button type="button" (click)="onCancel()">Cancel</button>
-    <button type="submit" [disabled]="serviceForm.invalid">Save Service</button>
-  </div>
+			<div class="form-grid">
+				<div class="form-group">
+					<label for="durationMinutes" class="form-label">Duration (Minutes)</label>
+					<div class="input-wrapper">
+						<input
+							id="durationMinutes"
+							type="number"
+							formControlName="durationMinutes"
+							class="form-input"
+							placeholder="60"
+						/>
+					</div>
 
-</form>
+					@if (
+						serviceForm.get('durationMinutes')?.touched &&
+						serviceForm.get('durationMinutes')?.errors
+					) {
+						<div class="error-msg">
+							@if (serviceForm.get('durationMinutes')?.errors?.['required']) {
+								<small>Duration is required.</small>
+							}
+							@if (serviceForm.get('durationMinutes')?.errors?.['min']) {
+								<small>Duration must be at least 1 minute.</small>
+							}
+						</div>
+					}
+				</div>
+
+				<div class="form-group">
+					<label for="afterServiceBreakDurationMinutes" class="form-label"
+						>After-Service Break (Minutes)</label
+					>
+					<div class="input-wrapper">
+						<input
+							id="afterServiceBreakDurationMinutes"
+							type="number"
+							formControlName="afterServiceBreakDurationMinutes"
+							class="form-input"
+							placeholder="15"
+						/>
+					</div>
+
+					@if (
+						serviceForm.get('afterServiceBreakDurationMinutes')?.touched &&
+						serviceForm.get('afterServiceBreakDurationMinutes')?.errors
+					) {
+						<div class="error-msg">
+							@if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['required']) {
+								<small>Break duration is required.</small>
+							}
+							@if (serviceForm.get('afterServiceBreakDurationMinutes')?.errors?.['min']) {
+								<small>Break cannot be negative.</small>
+							}
+						</div>
+					}
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<button type="button" class="btn-secondary" (click)="onCancel()">Cancel</button>
+				<button type="submit" class="btn-primary" [disabled]="serviceForm.invalid">
+					Save Service
+				</button>
+			</div>
+		</form>
+	</div>
+</div>
