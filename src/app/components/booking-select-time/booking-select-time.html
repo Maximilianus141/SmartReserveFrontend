@@ -1,0 +1,10 @@
+@for (time of availableSlots(); track time.getTime()) {
+    <button 
+        class="slot-btn" 
+        [class.slot-active]="selectedTime()?.getTime() === time.getTime()"
+        (click)="selectTime(time)">
+        {{ time | date: 'HH:mm' }}
+    </button>
+} @empty {
+    <p>No available times for the selected date.</p>
+}

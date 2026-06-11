@@ -18,18 +18,15 @@
 		<div class="slots-column">
 			<span class="column-title">Available Slots</span>
 
-			<div class="slots-grid">
-				<button class="slot-btn">11:00</button>
-				<button class="slot-btn">13:00</button>
-				<button class="slot-btn slot-active">14:00</button>
-				<button class="slot-btn">15:00</button>
-				<button class="slot-btn">16:00</button>
-				<button class="slot-btn">17:00</button>
-				<button class="slot-btn">18:00</button>
-			</div>
+			<app-booking-select-time
+				class="slots-grid"
+				[availability]="availabilityForSelectedDate()"
+				(timeSelected)="onTimeConfirmed($event)"
+			>
+			</app-booking-select-time>
 
 			<p class="selection-summary">
-				Selected: <span class="summary-highlight">Jan 14 @ 14:00</span>
+				Selected: <span class="summary-highlight">{{ selectedTime() | date: 'MMM dd @ HH:mm' : 'UTC' }}</span>
 			</p>
 		</div>
 	</div>

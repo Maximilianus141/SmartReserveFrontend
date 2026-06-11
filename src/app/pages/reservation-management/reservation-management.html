@@ -1,7 +1,11 @@
 <div class="reservations-container">
 	<div class="list-header">
-		<h2 class="sub-title">Admin Dashboard</h2>
-		<p class="main-title">Reservations Management</p>
+        @if (isAdmin()) {
+			<h2 class="sub-title">Admin Dashboard</h2>
+		} @else {
+			<h2 class="sub-title">User Dashboard</h2>
+		}
+		<p class="main-title">Reservations</p>
 	</div>
 
 	<div class="reservations-list">
