@@ -1,0 +1,76 @@
+<h2>Reservations Management</h2>
+
+@for (reservation of reservations(); track reservation.id) {
+  <div class="reservation-card">
+    
+    @if (editingReservationId() === reservation.id && isAdmin()) {
+      <form [formGroup]="reservationForm" (ngSubmit)="saveReservation()">
+        <h3>Editing Reservation #{{ reservation.id }}</h3>
+        
+        <label>Status: </label>
+        <input formControlName="status" type="text" />
+
+        <label>Start Time: </label>
+        <input formControlName="startTime" type="text" />
+
+        <label>End Time: </label>
+        <input formControlName="endTime" type="text" />
+
+        <div formGroupName="service">
+          <h4>Select Service</h4>
+          <label>Choose Service: </label>
+          <select formControlName="id">
+            <option [value]="null" disabled>-- Select a Service --</option>
+            @for (srv of availableServices(); track srv.id) {
+              <option [value]="srv.id">{{ srv.name }} ({{ srv.wholeDurationSeconds }}s)</option>
+            }
+          </select>
+          
+          <p><i>Description: {{ reservationForm.get('service.description')?.value }}</i></p>
+        </div>
+
+        @if (reservationForm.contains('user')) {
+          <div formGroupName="user">
+            <h4>Edit User Details</h4>
+            <label>Username: </label>
+            <input formControlName="username" type="text" />
+
+            <label>Email: </label>
+            <input formControlName="email" type="email" />
+          </div>
+        }
+
+        <br />
+        <button type="submit" [disabled]="reservationForm.invalid">Save Changes</button>
+        <button type="button" (click)="cancelEdit()">Cancel</button>
+      </form>
+
+    } @else {
+      <h3>Reservation #{{ reservation.id }}</h3>
+      <p>Status: {{ reservation.status }}</p>
+      <p>Time: {{ reservation.startTime }} - {{ reservation.endTime }}</p>
+      
+      <h4>Service Details</h4>
+      <ul>
+        <li>Name: {{ reservation.service.name }}</li>
+        <li>Description: {{ reservation.service.description }}</li>
+        <li>Duration: {{ reservation.service.wholeDurationSeconds }}s</li>
+      </ul>
+
+      @if (reservation.user) {
+        <h4>User Details</h4>
+        <ul>
+          <li>Username: {{ reservation.user.username }}</li>
+          <li>Email: {{ reservation.user.email }}</li>
+        </ul>
+      }
+
+      @if (isAdmin()) {
+        <button (click)="startEdit(reservation)">Modify Reservation</button>
+      }
+    }
+  </div>
+  <hr />
+} @empty {
+  <p>No reservations available.</p>
+}
