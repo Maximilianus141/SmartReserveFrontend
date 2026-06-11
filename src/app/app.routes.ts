@@ -4,6 +4,7 @@ import { BookingSelect } from './pages/booking-select/booking-select';
 import { ServiceEdit } from './pages/service-edit/service-edit';
 import { authGuard } from './auth/auth.guard';
 import { ReservationManagement } from './pages/reservation-management/reservation-management';
+import { Guides } from './pages/guides/guides';
 
 export const routes: Routes = [
 	{
@@ -25,5 +26,9 @@ export const routes: Routes = [
 		component: ReservationManagement,
 		canActivate: [authGuard],
 		data: { roles: ['ROLE_guest'] },
+	},
+	{
+		path: 'guides',
+		component: Guides,
 	},
 ];
