@@ -149,7 +149,7 @@ export class ReservationManagement implements OnInit {
 			}
 
 			console.warn('Form validation failed on controls:', invalidControls);
-			alert(`Cannot save changes, some fields are invalid, nyaa~! :3\nInvalid fields: ${invalidControls.join(', ')}`);
+			alert(`Cannot save changes, some fields are invalid!\nInvalid fields: ${invalidControls.join(', ')}`);
 			return;
 		}
 
@@ -180,7 +180,7 @@ export class ReservationManagement implements OnInit {
 				console.log('Reservation updated successfully!', updatedRes);
 				this.reservations.update((list) => list.map((res) => (res.id === id ? updatedRes : res)));
 				this.editingReservationId.set(null);
-				alert('Reservation modified successfully, nyaa~! :3');
+				alert('Reservation modified successfully!');
 			},
 			error: (err) => {
 				console.error('Failed to update reservation', err);

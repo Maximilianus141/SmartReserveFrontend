@@ -97,7 +97,7 @@ export class BookingSelect {
 		}
 
 		if (!this.keycloakService.isLoggedIn) {
-			alert('Please login first to book a service, nyaa~! :3');
+			alert('Please login first to book a service!');
 			this.keycloakService.login({
 				redirectUri: window.location.href,
 			});
@@ -112,7 +112,7 @@ export class BookingSelect {
 
 		this.reservationService.postMyReservation(requestPayload).subscribe({
 			next: (response) => {
-				alert(`Nyaa~! Booking confirmed successfully! :3\nReservation ID: #${response.id}`);
+				alert(`Booking confirmed successfully! \nReservation ID: #${response.id}`);
 				this.router.navigate(['/reservations']);
 			},
 			error: (err) => {

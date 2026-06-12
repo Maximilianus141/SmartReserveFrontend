@@ -85,7 +85,7 @@ export class ServiceEdit implements OnInit {
 				}
 			}
 			console.warn('Service Edit Form validation failed on controls:', invalidControls);
-			alert(`Cannot save service: some fields are invalid, nyaa~! :3\nInvalid fields: ${invalidControls.join(', ')}`);
+			alert(`Cannot save service: some fields are invalid!\nInvalid fields: ${invalidControls.join(', ')}`);
 			return;
 		}
 
@@ -105,7 +105,7 @@ export class ServiceEdit implements OnInit {
 			this.serviceService.putService(payload.id, payload).subscribe({
 				next: (res) => {
 					console.log('Service updated successfully!', res);
-					alert('Service modified successfully, nyaa~! :3');
+					alert('Service modified successfully!');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
@@ -117,7 +117,7 @@ export class ServiceEdit implements OnInit {
 			this.serviceService.postService(payload).subscribe({
 				next: (res) => {
 					console.log('Service created successfully!', res);
-					alert('Service created successfully, nyaa~! :3');
+					alert('Service created successfully!');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
