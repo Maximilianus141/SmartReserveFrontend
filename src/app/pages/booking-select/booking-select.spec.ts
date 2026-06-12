@@ -52,8 +52,8 @@ describe('BookingSelect', () => {
 		mockKeycloakService = {
 			isLoggedIn: true,
 			username: 'test-user',
-			login: async () => {},
-			logout: async () => {},
+			login: () => Promise.resolve(),
+			logout: () => Promise.resolve(),
 		};
 
 		await TestBed.configureTestingModule({

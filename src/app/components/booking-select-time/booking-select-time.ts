@@ -28,7 +28,7 @@ export class BookingSelectTime {
 			const end = new Date(range.endTime);
 
 			// FIX: Extract date components using UTC to prevent midnight timezone shifting
-			let currentDate = new Date(
+			const currentDate = new Date(
 				Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate()),
 			);
 			const lastDate = new Date(

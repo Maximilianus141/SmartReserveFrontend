@@ -19,8 +19,9 @@
 
 						<div class="form-grid">
 							<div class="form-group">
-								<label class="form-label">Status</label>
+								<label for="edit-status" class="form-label">Status</label>
 								<input
+									id="edit-status"
 									formControlName="status"
 									type="text"
 									class="form-input"
@@ -29,13 +30,13 @@
 							</div>
 
 							<div class="form-group">
-								<label class="form-label">Start Time</label>
-								<input formControlName="startTime" type="text" class="form-input" />
+								<label for="edit-startTime" class="form-label">Start Time</label>
+								<input id="edit-startTime" formControlName="startTime" type="text" class="form-input" />
 							</div>
 
 							<div class="form-group">
-								<label class="form-label">End Time</label>
-								<input formControlName="endTime" type="text" class="form-input" />
+								<label for="edit-endTime" class="form-label">End Time</label>
+								<input id="edit-endTime" formControlName="endTime" type="text" class="form-input" />
 							</div>
 						</div>
 
@@ -43,9 +44,9 @@
 							<h4 class="section-divider-title">Service Selection</h4>
 
 							<div class="form-group">
-								<label class="form-label">Choose Service</label>
+								<label for="edit-serviceId" class="form-label">Choose Service</label>
 								<div class="select-wrapper">
-									<select formControlName="id" class="form-select">
+									<select id="edit-serviceId" formControlName="id" class="form-select">
 										<option [ngValue]="null" disabled>-- Select a Service --</option>
 										@for (srv of availableServices(); track srv.id) {
 											<option [ngValue]="srv.id">
@@ -72,13 +73,13 @@
 
 								<div class="form-grid">
 									<div class="form-group">
-										<label class="form-label">Username</label>
-										<input formControlName="username" type="text" class="form-input" />
+										<label for="edit-username" class="form-label">Username</label>
+										<input id="edit-username" formControlName="username" type="text" class="form-input" />
 									</div>
 
 									<div class="form-group">
-										<label class="form-label">Email</label>
-										<input formControlName="email" type="email" class="form-input" />
+										<label for="edit-email" class="form-label">Email</label>
+										<input id="edit-email" formControlName="email" type="email" class="form-input" />
 									</div>
 								</div>
 							</div>

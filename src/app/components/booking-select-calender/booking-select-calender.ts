@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, OnInit } from '@angular/core';
 import { CalenderDate } from '../calender-date/calender-date';
 
 @Component({
@@ -7,7 +7,7 @@ import { CalenderDate } from '../calender-date/calender-date';
 	templateUrl: './booking-select-calender.html',
 	styleUrl: './booking-select-calender.scss',
 })
-export class BookingSelectCalender {
+export class BookingSelectCalender implements OnInit {
 	selectedDate: Date | null = null;
 	outputDate = output<Date>();
 

@@ -10,8 +10,8 @@ describe('App', () => {
 		mockKeycloakService = {
 			isLoggedIn: false,
 			username: 'test-user',
-			login: async () => {},
-			logout: async () => {},
+			login: () => Promise.resolve(),
+			logout: () => Promise.resolve(),
 		};
 
 		await TestBed.configureTestingModule({

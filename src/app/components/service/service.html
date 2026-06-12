@@ -1,4 +1,4 @@
-<div (contextmenu)="handleRightClick($event)" (click)="handleSelectService()" class="service-card">
+<div (contextmenu)="handleRightClick($event)" (click)="handleSelectService()" (keydown.enter)="handleSelectService()" tabindex="0" class="service-card">
 	<div class="card-header">
 		<div class="icon-wrapper">
 			<i class="fa-solid fa-magic-wand-sparkles text-sm"></i>

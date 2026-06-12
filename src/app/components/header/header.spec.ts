@@ -13,8 +13,8 @@ describe('Header', () => {
 			isLoggedIn: false,
 			username: 'test-user',
 			hasRole: () => false,
-			login: async () => {},
-			logout: async () => {},
+			login: () => Promise.resolve(),
+			logout: () => Promise.resolve(),
 		};
 
 		await TestBed.configureTestingModule({

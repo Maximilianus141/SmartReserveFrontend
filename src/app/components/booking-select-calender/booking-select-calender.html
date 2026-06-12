@@ -30,9 +30,9 @@
 					<app-calender-date [isEmpty]="true"></app-calender-date>
 				} @else {
 					@if (
-						date == selectedDate?.getDate() &&
-						curerntlySelectedMonth == selectedDate?.getMonth() &&
-						currentlySelectedYear == selectedDate?.getFullYear()
+						date === selectedDate?.getDate() &&
+						curerntlySelectedMonth === selectedDate?.getMonth() &&
+						currentlySelectedYear === selectedDate?.getFullYear()
 					) {
 						<app-calender-date
 							class="gradient-button"

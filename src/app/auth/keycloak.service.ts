@@ -9,8 +9,6 @@ export class KeycloakService {
 	private readonly env = inject(Env);
 	private keycloakInstance: Keycloak | null = null;
 
-	constructor() {}
-
 	async init(): Promise<boolean> {
 		this.keycloakInstance = new Keycloak({
 			url: this.env.keycloakUrl,
@@ -77,7 +75,7 @@ export class KeycloakService {
 		return this.keycloakInstance.hasRealmRole(role);
 	}
 
-	async refreshToken(minValidity: number = 30): Promise<boolean> {
+	async refreshToken(minValidity = 30): Promise<boolean> {
 		try {
 			if (!this.keycloakInstance) return false;
 			return await this.keycloakInstance.updateToken(minValidity);
