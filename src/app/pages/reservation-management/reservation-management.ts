@@ -6,6 +6,7 @@ import { ReservationService } from '../../services/reservation.service';
 import { ServiceService } from '../../services/service.service';
 import { AdminReservationRequestDTO, Reservation } from '../../dataaccess/reservation';
 import { ServiceInfo } from '../../dataaccess/service-info';
+import { User } from '../../dataaccess/user';
 
 @Component({
 	selector: 'app-reservation-list',
@@ -20,8 +21,8 @@ export class ReservationManagement implements OnInit {
 	private serviceService = inject(ServiceService);
 	private fb = inject(FormBuilder);
 
-	// Signals for state
-	reservations = signal<any[]>([]);
+	// Signals for state - strictly typed!
+	reservations = signal<Reservation[]>([]);
 	availableServices = signal<ServiceInfo[]>([]);
 	isAdmin = signal<boolean>(false);
 	editingReservationId = signal<number | null>(null);
@@ -88,8 +89,8 @@ export class ReservationManagement implements OnInit {
 		});
 	}
 
-	startEdit(reservation: any): void {
-		this.editingReservationId.set(reservation.id);
+	startEdit(reservation: Reservation): void {
+		this.editingReservationId.set(reservation.id ?? null);
 
 		// Dynamically add user controls if user is present, but keep them optional/read-only (not validated)
 		if (reservation.user) {
@@ -160,23 +161,23 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
-		// Build a highly robust, fully hydrated payload to support both flat DTO fields and nested JPA entities
-		const payload: any = {
+		// Build a highly robust, fully hydrated payload strictly without using 'any'
+		const payload: AdminReservationRequestDTO & { service: ServiceInfo; user: User | null } = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
 			startTime: new Date(formValues.startTime).toISOString(),
 			// Send the FULL service object containing id, name, description, duration, etc.
 			// This is required by strict backend JPA/Hibernate entity deserialization!
-			service: formValues.service,
+			service: formValues.service as ServiceInfo,
 			// Send the FULL user object if present
-			user: formValues.user || null,
+			user: (formValues.user as User | null) || null,
 		};
 
 		const id = formValues.id;
 		console.log('Sending PUT reservation payload:', payload);
 
-		this.reservationService.putReservation(id, payload as any).subscribe({
+		this.reservationService.putReservation(id, payload).subscribe({
 			next: (updatedRes) => {
 				console.log('Reservation updated successfully!', updatedRes);
 				this.reservations.update((list) => list.map((res) => (res.id === id ? updatedRes : res)));
@@ -190,7 +191,9 @@ export class ReservationManagement implements OnInit {
 		});
 	}
 
-	deleteReservation(id: number): void {
+	deleteReservation(id: number | undefined): void {
+		if (id === undefined || id === null) return;
+
 		if (this.isAdmin()) {
 			if (!confirm('Are you sure you want to delete this reservation?')) return;
 			this.reservationService.deleteReservation(id).subscribe({
