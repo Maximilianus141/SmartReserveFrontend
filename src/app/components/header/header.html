@@ -7,7 +7,16 @@
 				<div class="brand" routerLink="/">
 					<span class="brand-name">SmartReserve</span>
 				</div>
-				<a class="nav-link" routerLink="/reservations" routerLinkActive="active">Your Reservations</a>
+				<a class="nav-link" routerLink="/reservations" routerLinkActive="active"
+					>Your Reservations</a
+				>
+				@if (keycloakService.hasRole('ROLE_admin')) {
+					<div class="admin-actions">
+						<a class="nav-link" routerLink="/service/new" routerLinkActive="active">
+							Add New Service
+						</a>
+					</div>
+				}
 			</div>
 
 			<!-- Right: Decorative Quick Links / Status -->
