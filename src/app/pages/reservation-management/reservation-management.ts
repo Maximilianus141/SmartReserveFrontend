@@ -160,17 +160,22 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
-		const payload: AdminReservationRequestDTO = {
+		const payload: any = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
 			startTime: new Date(formValues.startTime).toISOString(),
+			// Robust fallback: Some backend mappers require nested entities instead of flat IDs
+			service: {
+				id: Number(formValues.service.id),
+			},
+			user: formValues.user?.id ? { id: formValues.user.id } : null,
 		};
 
 		const id = formValues.id;
 		console.log('Sending PUT reservation payload:', payload);
 
-		this.reservationService.putReservation(id, payload).subscribe({
+		this.reservationService.putReservation(id, payload as any).subscribe({
 			next: (updatedRes) => {
 				console.log('Reservation updated successfully!', updatedRes);
 				this.reservations.update((list) => list.map((res) => (res.id === id ? updatedRes : res)));

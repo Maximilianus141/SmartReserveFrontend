@@ -46,9 +46,9 @@
 								<label class="form-label">Choose Service</label>
 								<div class="select-wrapper">
 									<select formControlName="id" class="form-select">
-										<option [value]="null" disabled>-- Select a Service --</option>
+										<option [ngValue]="null" disabled>-- Select a Service --</option>
 										@for (srv of availableServices(); track srv.id) {
-											<option [value]="srv.id">
+											<option [ngValue]="srv.id">
 												{{ srv.name }} ({{ (srv.wholeDurationSeconds ?? 0) / 60 }} mins)
 											</option>
 										}
