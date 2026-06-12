@@ -117,7 +117,7 @@ export class BookingSelect {
 			},
 			error: (err) => {
 				console.error('Failed to book reservation', err);
-				alert('Oh no! Something went wrong while saving your reservation. Please try again, nyaa~');
+				alert('Oh no! Something went wrong while saving your reservation. Please try again.');
 			},
 		});
 	}

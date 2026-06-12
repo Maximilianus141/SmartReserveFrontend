@@ -110,7 +110,7 @@ export class ServiceEdit implements OnInit {
 				},
 				error: (err) => {
 					console.error('Failed to update service', err);
-					alert(`Oh no! Failed to update service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Oh no! Failed to update service!\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		} else {
@@ -122,7 +122,7 @@ export class ServiceEdit implements OnInit {
 				},
 				error: (err) => {
 					console.error('Failed to create service', err);
-					alert(`Oh no! Failed to create service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Oh no! Failed to create service!\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		}

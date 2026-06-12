@@ -154,7 +154,7 @@ export class ReservationManagement implements OnInit {
 		}
 
 		if (!this.isAdmin()) {
-			alert('Only administrators can modify reservation details, nyaa~!');
+			alert('Only administrators can modify reservation details!');
 			return;
 		}
 
@@ -184,7 +184,7 @@ export class ReservationManagement implements OnInit {
 			},
 			error: (err) => {
 				console.error('Failed to update reservation', err);
-				alert(`Oh no! Something went wrong while saving, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+				alert(`Oh no! Something went wrong while saving!\nError: ${err.message || err.statusText || 'Unknown error'}`);
 			},
 		});
 	}
