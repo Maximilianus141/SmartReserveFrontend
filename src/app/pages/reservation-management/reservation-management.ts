@@ -26,12 +26,12 @@ export class ReservationManagement implements OnInit {
 	isAdmin = signal<boolean>(false);
 	editingReservationId = signal<number | null>(null);
 
-	// Form Group
+	// Form Group - Note: endTime is NOT required for updates since it is calculated by backend
 	reservationForm: FormGroup = this.fb.group({
 		id: [null],
 		status: ['', Validators.required],
 		startTime: ['', Validators.required],
-		endTime: ['', Validators.required],
+		endTime: [''],
 		service: this.fb.group({
 			id: [null, Validators.required],
 			name: [''],
@@ -91,14 +91,15 @@ export class ReservationManagement implements OnInit {
 	startEdit(reservation: any): void {
 		this.editingReservationId.set(reservation.id);
 
+		// Dynamically add user controls if user is present, but keep them optional/read-only (not validated)
 		if (reservation.user) {
 			if (!this.reservationForm.contains('user')) {
 				this.reservationForm.addControl(
 					'user',
 					this.fb.group({
 						id: [''],
-						username: ['', Validators.required],
-						email: ['', [Validators.required, Validators.email]],
+						username: [''],
+						email: [''],
 					}),
 				);
 			}
@@ -117,7 +118,45 @@ export class ReservationManagement implements OnInit {
 	}
 
 	saveReservation(): void {
-		if (this.reservationForm.invalid || !this.isAdmin()) return;
+		console.log('Save Clicked. Form state:', {
+			valid: this.reservationForm.valid,
+			values: this.reservationForm.value,
+			errors: this.reservationForm.errors,
+		});
+
+		// Transparent invalid control checking
+		if (this.reservationForm.invalid) {
+			const invalidControls: string[] = [];
+			const controls = this.reservationForm.controls;
+			for (const name in controls) {
+				if (controls[name].invalid) {
+					invalidControls.push(name);
+				}
+			}
+			const serviceControls = (this.reservationForm.get('service') as FormGroup).controls;
+			for (const name in serviceControls) {
+				if (serviceControls[name].invalid) {
+					invalidControls.push(`service.${name}`);
+				}
+			}
+			if (this.reservationForm.contains('user')) {
+				const userControls = (this.reservationForm.get('user') as FormGroup).controls;
+				for (const name in userControls) {
+					if (userControls[name].invalid) {
+						invalidControls.push(`user.${name}`);
+					}
+				}
+			}
+
+			console.warn('Form validation failed on controls:', invalidControls);
+			alert(`Cannot save changes, some fields are invalid, nyaa~! :3\nInvalid fields: ${invalidControls.join(', ')}`);
+			return;
+		}
+
+		if (!this.isAdmin()) {
+			alert('Only administrators can modify reservation details, nyaa~!');
+			return;
+		}
 
 		const formValues = this.reservationForm.value;
 
@@ -129,13 +168,19 @@ export class ReservationManagement implements OnInit {
 		};
 
 		const id = formValues.id;
+		console.log('Sending PUT reservation payload:', payload);
 
 		this.reservationService.putReservation(id, payload).subscribe({
 			next: (updatedRes) => {
+				console.log('Reservation updated successfully!', updatedRes);
 				this.reservations.update((list) => list.map((res) => (res.id === id ? updatedRes : res)));
 				this.editingReservationId.set(null);
+				alert('Reservation modified successfully, nyaa~! :3');
 			},
-			error: (err) => console.error('Failed to update reservation', err),
+			error: (err) => {
+				console.error('Failed to update reservation', err);
+				alert(`Oh no! Something went wrong while saving, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+			},
 		});
 	}
 
