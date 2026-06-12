@@ -41,11 +41,11 @@ export class ServiceList implements OnInit {
 
 	handleServiceDelete(id: number) {
 		if (!this.keycloakService.hasRole('ROLE_admin')) {
-			alert('Only administrators can delete services, nyaa~!');
+			alert('Only administrators can delete services.');
 			return;
 		}
 
-		if (!confirm('Are you sure you want to delete this service, nyaa~? :3')) {
+		if (!confirm('Are you sure you want to delete this service?')) {
 			return;
 		}
 
@@ -53,11 +53,11 @@ export class ServiceList implements OnInit {
 			next: () => {
 				// Remove the deleted service from the local list signal dynamically!
 				this.services.update((list) => list.filter((s) => s.id !== id));
-				alert('Service deleted successfully, nyaa~! :3');
+				alert('Service deleted successfully.');
 			},
 			error: (err) => {
 				console.error('Failed to delete service', err);
-				alert(`Oh no! Failed to delete service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+				alert(`Failed to delete service.\nError: ${err.message || err.statusText || 'Unknown error'}`);
 			},
 		});
 	}

@@ -111,12 +111,12 @@ export class ServiceEdit implements OnInit {
 			this.serviceService.putService(payload.id, payload).subscribe({
 				next: (res) => {
 					console.log('Service updated successfully!', res);
-					alert('Service modified successfully, nyaa~! :3');
+					alert('Service modified successfully.');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
 					console.error('Failed to update service', err);
-					alert(`Oh no! Failed to update service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Failed to update service.\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		} else {
@@ -133,12 +133,12 @@ export class ServiceEdit implements OnInit {
 			this.serviceService.postService(payload).subscribe({
 				next: (res) => {
 					console.log('Service created successfully!', res);
-					alert('Service created successfully, nyaa~! :3');
+					alert('Service created successfully.');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
 					console.error('Failed to create service', err);
-					alert(`Oh no! Failed to create service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Failed to create service.\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		}
