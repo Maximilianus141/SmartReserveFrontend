@@ -1,186 +1,186 @@
-# SmartReserve - Frontend Application
+# SmartReserve - Frontend-Anwendung
 
-SmartReserve is a modern, enterprise-grade, role-based scheduling and resource reservation application. It is designed to streamline service discovery and manage bookings dynamically with clean user workflows and strict access controls. 
+SmartReserve ist eine moderne, professionelle und rollenbasierte Anwendung zur Termin- und Ressourcenreservierung. Sie wurde entwickelt, um die Dienstleistungsverwaltung zu optimieren und Buchungsprozesse dynamisch durch intuitive Benutzer-Workflows und präzise Zugriffskontrollen zu steuern.
 
-The application is built on **Angular 21 (Standalone Component Architecture)**, utilizing modern reactive patterns such as **Signals** and **RxJS streams**, and is protected by robust **Keycloak OAuth2 Single Sign-On (SSO)**.
-
----
-
-## 🛠️ Technology Stack
-* **Frontend Framework:** Angular 21 (Standalone Components, Signals, Reactive Form Groups)
-* **Design & Styling:** SCSS (Sass), Tailwind CSS utility mappings, Responsive layout grids
-* **Security & IAM:** Keycloak (OAuth2 Authorization Code Flow, JWT validation, Client-level role extraction)
-* **Routing & Guards:** Angular Router with dynamic state preservation and Role Guards
-* **Test Suite:** Vitest (14/14 automated specs verifying services, guards, interceptors, and components)
+Die Anwendung basiert auf **Angular 21 (Standalone-Komponenten-Architektur)** unter Verwendung moderner reaktiver Entwurfsmuster wie **Signals** sowie **RxJS-Datenströmen** und wird durch eine sichere **Keycloak-OAuth2-Single-Sign-On-Integration (SSO)** geschützt.
 
 ---
 
-## 🔐 Architecture & Security Integration
-SmartReserve enforces security at the boundary of every state transition and API boundary:
-1. **Dynamic Authentication State (`KeycloakService`):** Orchestrates handshakes and tokens, binding client-level roles (`ROLE_admin`, `ROLE_guest`) to conditional template views.
-2. **Access Guards (`authGuard`):** Protects routes on load by intercepting transitions and redirecting unauthorized clients to Keycloak's login interface.
-3. **Implicit Interceptors (`authInterceptor`):** Automatically appends standard `Bearer JWT` headers to all outgoing backend API endpoints.
-4. **Resilient Data Access:** Decouples layouts from HTTP operations using dedicated client services.
+## 🛠️ Technologie-Stack
+* **Frontend-Framework:** Angular 21 (Standalone-Komponenten, Signals, reaktive Formulargruppen)
+* **Design & Styling:** SCSS (Sass), Tailwind-CSS-Zuweisungen, responsive Grid-Layouts
+* **Sicherheit & IAM:** Keycloak (OAuth2-Authorization-Code-Flow, JWT-Validierung, Extraktion von Rollen auf Client-Ebene)
+* **Routing & Guards:** Angular-Router mit dynamischer Zustandserhaltung und Rollenschutz-Guards
+* **Testumgebung:** Vitest (14/14 automatisierte Spezifikationen zur Validierung von Services, Guards, Interzeptoren und Komponenten)
 
 ---
 
-## 📖 User Functions & Documentation Guide
-The following section provides a comprehensive walkthrough of the application's core capabilities, accompanied by visual placeholders for documentation and grading purposes.
+## 🔐 Architektur & Sicherheitsintegration
+SmartReserve erzwingt Sicherheitsprüfungen an jeder Schnittstelle von Zustandsübergängen und API-Abrufen:
+1. **Dynamischer Authentifizierungsstatus (`KeycloakService`):** Steuert Handshakes und Tokens und bindet Rollen auf Client-Ebene (`ROLE_admin`, `ROLE_guest`) an die bedingte Darstellung der Benutzeroberfläche.
+2. **Zugriffsschutz (`authGuard`):** Sichert Routen beim Laden, fängt unbefugte Übergänge ab und leitet Benutzer direkt zur Keycloak-Anmeldeseite weiter.
+3. **Implizite Interzeptoren (`authInterceptor`):** Fügt allen ausgehenden API-Anfragen an das Backend automatisch die standardmäßigen `Bearer-JWT`-Header hinzu.
+4. **Ausfallsicherer Datenzugriff:** Entkoppelt Benutzeroberflächen durch dedizierte Client-Services vollständig von direkten HTTP-Operationen.
 
 ---
 
-### 1. Unified Authentication & Role-Based Navigation
-Upon visiting the application, guests can securely log in via Keycloak. Once authenticated, the navigation bar dynamically updates to greet the user and conditionally expose features (such as Administrative tools) based on their assigned roles.
+## 📖 Benutzerfunktionen & Dokumentationsleitfaden
+Der folgende Abschnitt bietet einen umfassenden Überblick über die Kernfunktionen der Anwendung, ergänzt durch visuelle Platzhalter für Dokumentations- und Bewertungszwecke.
 
-* **Features:**
-  - One-click Login/Logout redirection.
-  - Seamless background token refreshes.
-  - Role-based conditional layout rendering (Admins see advanced management tabs; guests see booking views).
+---
 
-#### 📸 User Authentication view
+### 1. Einheitliche Authentifizierung & rollenbasierte Navigation
+Beim Aufrufen der Anwendung können sich Benutzer sicher über Keycloak anmelden. Nach erfolgreicher Authentifizierung aktualisiert sich die Navigationsleiste dynamisch, zeigt den Benutzernamen an und gibt administrative Funktionen selektiv basierend auf den zugewiesenen Rollen frei.
+
+* **Funktionen:**
+  - One-Click-An- und Abmeldung mit automatischer Weiterleitung.
+  - Nahtlose Token-Aktualisierung im Hintergrund.
+  - Rollenbasierte Benutzeroberfläche (Administratoren sehen Verwaltungsmenüs, Gäste sehen den Buchungsbereich).
+
+#### 📸 Benutzeroberfläche: Anmeldung & Status
 ```
 +-------------------------------------------------------------------------------+
 |                                                                               |
-|                   [ PLACEHOLDER: USER AUTHENTICATION SCREENSHOT ]             |
+|                   [ PLATZHALTER: SCREENSHOT BENUTZER-AUTHENTIFIZIERUNG ]       |
 |                                                                               |
-|   Shows: Navigation Bar, Logged-in Username, Dynamic Log Out button, and      |
-|   the greeting panel.                                                         |
-|                                                                               |
-+-------------------------------------------------------------------------------+
-```
-
----
-
-### 2. Service Exploration Directory
-The landing page displays an elegant grid of all services offered by the platform. Guests and Admins can browse descriptions, session durations, and buffers easily.
-
-* **Features:**
-  - Interactive card-grid with focus and hover state transitions.
-  - Fully keyboard-accessible controls (`tabindex` and Keyboard trigger bindings).
-  - Prominent durations and break time counters.
-
-#### 📸 Service Explorer Panel
-```
-+-------------------------------------------------------------------------------+
-|                                                                               |
-|                   [ PLACEHOLDER: SERVICE EXPLORER SCREENSHOT ]                |
-|                                                                               |
-|   Shows: Grid layout of available services with title headers, descriptions,  |
-|   session duration counters, and keyboard-friendly CTA selectors.             |
+|   Anzeige: Navigationsleiste, angemeldeter Benutzername, dynamischer          |
+|   Abmeldebutton (Logout) und das Begrüßungspanel.                            |
 |                                                                               |
 +-------------------------------------------------------------------------------+
 ```
 
 ---
 
-### 3. Smart Slot Calendar (Guest Booking)
-Selecting a service opens an interactive, step-by-step reservation wizard. Guests select a target date on an inline calendar, which fetches real-time backend availability, lists unreserved intervals, and registers a booking.
+### 2. Dienstleistungskatalog (Service-Explorer)
+Die Startseite präsentiert eine übersichtliche Übersicht aller angebotenen Dienstleistungen. Gäste und Administratoren können Beschreibungen, Sitzungsdauern und Pufferzeiten mühelos einsehen.
 
-* **Features:**
-  - Active day state highlighted on the calendar.
-  - Chronological grid of available booking intervals.
-  - Unified local timezone handling (bypasses UTC shifts to preserve chosen hours).
+* **Funktionen:**
+  - Interaktives Grid-Layout mit ansprechenden Hover- und Fokus-Zuständen.
+  - Barrierefreie Bedienung über Tastatursteuerungen (durch `tabindex` und Keydown-Events).
+  - Übersichtliche Darstellung von Behandlungszeiten und nachfolgenden Pausenzeiten.
 
-#### 📸 Booking Selection View
+#### 📸 Dienstleistungsübersicht
 ```
 +-------------------------------------------------------------------------------+
 |                                                                               |
-|                   [ PLACEHOLDER: SLOT BOOKING SELECTOR SCREENSHOT ]           |
+|                   [ PLATZHALTER: SCREENSHOT DIENSTLEISTUNGSKATALOG ]          |
 |                                                                               |
-|   Shows: Calendar date selector, real-time hourly intervals, dynamic          |
-|   selection summary card, and the checkout action buttons.                    |
-|                                                                               |
-+-------------------------------------------------------------------------------+
-```
-
----
-
-### 4. Personal Reservation Manager (Guest View)
-Guests can keep track of all their registered appointments in a centralized dashboard. The view calculates session boundaries and handles on-the-fly cancellations safely.
-
-* **Features:**
-  - Clear lists sorted by upcoming reservation times.
-  - Precise start and end time boundaries (calculated seamlessly).
-  - Native confirmation-guarded cancellation pipelines.
-
-#### 📸 Guest Reservations Dashboard
-```
-+-------------------------------------------------------------------------------+
-|                                                                               |
-|                [ PLACEHOLDER: GUEST RESERVATION MANAGER SCREENSHOT ]          |
-|                                                                               |
-|   Shows: List of bookings, current reservation statuses (PENDING, CONFIRMED,  |
-|   CANCELLED), and the interactive cancellation prompt.                        |
+|   Anzeige: Grid-Layout der verfügbaren Dienste mit Titeln, Beschreibungen,    |
+|   Dauer-Indikatoren und barrierefreien Aktionsschaltflächen.                  |
 |                                                                               |
 +-------------------------------------------------------------------------------+
 ```
 
 ---
 
-### 5. Service Configuration Form (Admin Workspace)
-Administrators have access to a robust interface for drafting, publishing, and modifying services. This workspace utilizes Angular FormGroups to provide immediate front-end validations and strict payload mappings.
+### 3. Intelligenter Buchungskalender (Gast-Buchung)
+Die Auswahl einer Dienstleistung öffnet einen interaktiven Buchungsassistenten. Gäste wählen ein gewünschtes Datum auf einem integrierten Kalender aus. Die Benutzeroberfläche fragt die Verfügbarkeiten in Echtzeit vom Backend ab, listet freie Zeitfenster auf und ermöglicht die Reservierung.
 
-* **Features:**
-  - Field validators (minimum length, positive numbers, non-empty bounds).
-  - Dual modes (Create vs. Edit) matching separate database entity structures.
-  - Clean cancel/discard guard states to prevent accidental loss of work.
+* **Funktionen:**
+  - Visuelle Hervorhebung des ausgewählten Tages im Kalender.
+  - Chronologische Auflistung aller freien Buchungsfenster.
+  - Konsistente lokale Zeitzonenbehandlung (umgeht UTC-Verschiebungen zur Erhaltung der ausgewählten Uhrzeit).
 
-#### 📸 Service Editing/Creation View
+#### 📸 Buchungsassistent
 ```
 +-------------------------------------------------------------------------------+
 |                                                                               |
-|                [ PLACEHOLDER: SERVICE CONFIGURATION FORM SCREENSHOT ]         |
+|                   [ PLATZHALTER: SCREENSHOT BUCHUNGSASSISTENT / KALENDER ]    |
 |                                                                               |
-|   Shows: Admin workspace, service details form, validation boundary markers,  |
-|   and submit/cancel controls.                                                 |
-|                                                                               |
-+-------------------------------------------------------------------------------+
-```
-
----
-
-### 6. Global Reservations Directory & Registry (Admin Workspace)
-Admins have access to a master database of all reservation entries across the entire platform. This panel enables direct status modifications, appointment rescheduling, and absolute administrative deletion controls.
-
-* **Features:**
-  - Complete master list of active platform-wide reservations.
-  - Live status editor dropdowns (instantly synchronizes status updates with the DB).
-  - Rescheduling controls mapped to strict backend `AdminReservationRequestDTO` structures.
-  - Deletion triggers guarded by warning screens to maintain database reference integrity.
-
-#### 📸 Administrative Reservation Directory
-```
-+-------------------------------------------------------------------------------+
-|                                                                               |
-|                [ PLACEHOLDER: ADMIN RESERVATIONS DIRECTORY SCREENSHOT ]       |
-|                                                                               |
-|   Shows: Master listing of reservations, editable fields, selection dropdowns  |
-|   for status flags, and deletion safety warning gates.                        |
+|   Anzeige: Datumsauswahl, freie Zeitfenster in Echtzeit, dynamische           |
+|   Zusammenfassung des ausgewählten Termins und Buchungs-Schaltfläche.        |
 |                                                                               |
 +-------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 🚀 Execution & Commands Reference
+### 4. Persönlicher Reservierungsmanager (Gast-Ansicht)
+Gäste können all ihre gebuchten Termine in einem zentralen Dashboard verwalten. Die Ansicht berechnet automatisch das voraussichtliche Ende des Termins und ermöglicht sichere Stornierungen.
 
-### Launch Development Server
+* **Funktionen:**
+  - Chronologisch sortierte Liste zukünftiger Termine.
+  - Präzise Berechnung von Start- und Endzeitpunkten.
+  - Sicherheitsabfragen vor Stornierungsaktionen.
+
+#### 📸 Dashboard für Gäste
+```
++-------------------------------------------------------------------------------+
+|                                                                               |
+|                [ PLATZHALTER: SCREENSHOT GAST-RESERVIERUNGSMANAGER ]          |
+|                                                                               |
+|   Anzeige: Buchungsliste, aktueller Buchungsstatus (PENDING, CONFIRMED,       |
+|   CANCELLED) und der Stornierungsdialog.                                      |
+|                                                                               |
++-------------------------------------------------------------------------------+
+```
+
+---
+
+### 5. Dienstleistungskonfiguration (Admin-Bereich)
+Administratoren haben Zugriff auf eine Benutzeroberfläche zur Erstellung und Bearbeitung von Dienstleistungen. Dieses Formular nutzt Angular FormGroups für sofortiges Frontend-Feedback und präzise Validierungen.
+
+* **Funktionen:**
+  - Feldvalidierungen (Mindestlängen, positive Zahlenbereiche, Pflichtfelder).
+  - Zweifache Betriebsmodi (Erstellung vs. Bearbeitung) passend zu den Backend-Datenstrukturen.
+  - Sicherheitsabfragen beim Verwerfen von Änderungen zur Vermeidung von Datenverlust.
+
+#### 📸 Formular zur Dienstleistungskonfiguration
+```
++-------------------------------------------------------------------------------+
+|                                                                               |
+|                [ PLATZHALTER: SCREENSHOT DIENSTLEISTUNGSKONFIGURATION ]       |
+|                                                                               |
+|   Anzeige: Administrator-Formular, Validierungsfehler-Anzeigen                |
+|   und Steuerungsschaltflächen (Speichern/Abbrechen).                         |
+|                                                                               |
++-------------------------------------------------------------------------------+
+```
+
+---
+
+### 6. Globale Reservierungsübersicht & Verwaltung (Admin-Bereich)
+Administratoren steht eine Master-Übersicht aller Reservierungen der gesamten Plattform zur Verfügung. Diese Ansicht ermöglicht direkte Statusänderungen, Terminverschiebungen und administrative Löschungen.
+
+* **Funktionen:**
+  - Vollständige Liste aller aktiven Buchungen aller Benutzer.
+  - Live-Status-Dropdowns zur direkten Synchronisierung von Statusänderungen mit der Datenbank.
+  - Verschiebungssteuerungen, die an die Backend-Struktur `AdminReservationRequestDTO` gekoppelt sind.
+  - Sicherheitsabfragen vor endgültigen Löschungen zur Wahrung der Datenbankkonsistenz.
+
+#### 📸 Globale Reservierungsverwaltung
+```
++-------------------------------------------------------------------------------+
+|                                                                               |
+|                [ PLATZHALTER: SCREENSHOT GLOBALE RESERVIERUNGSVERWALTUNG ]    |
+|                                                                               |
+|   Anzeige: Reservierungstabelle, Dropdown-Auswahl für den Buchungsstatus      |
+|   sowie administrative Lösch- und Bearbeitungsoptionen.                       |
+|                                                                               |
++-------------------------------------------------------------------------------+
+```
+
+---
+
+## 🚀 Ausführung & Befehlsreferenz
+
+### Lokalen Entwicklungsserver starten
 ```bash
 npm run start
 ```
-*Navigates to `http://localhost:4200/`*
+*Öffnet die Anwendung unter `http://localhost:4200/`*
 
-### Run Production Builds
+### Produktions-Build erstellen
 ```bash
 npm run build
 ```
 
-### Run Linter & Quality Gates
+### Linter & Qualitätsprüfungen ausführen
 ```bash
 npm run lint
 ```
 
-### Execute Automated Test Suite (Vitest)
+### Automatisierte Tests ausführen (Vitest)
 ```bash
 npm run test
 ```
