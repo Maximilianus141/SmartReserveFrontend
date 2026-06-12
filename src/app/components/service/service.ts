@@ -26,6 +26,7 @@ export class Service {
 
 	bookServiceId = output<number>();
 	editServiceId = output<number>();
+	deleteServiceId = output<number>();
 
 	menuPosition = signal({ x: 0, y: 0 });
 
@@ -36,6 +37,11 @@ export class Service {
 
 	handleEditService() {
 		this.editServiceId.emit(this.service()?.id ?? -1);
+		activeMenuServiceId.set(null); // Close the menu
+	}
+
+	handleDeleteService() {
+		this.deleteServiceId.emit(this.service()?.id ?? -1);
 		activeMenuServiceId.set(null); // Close the menu
 	}
 

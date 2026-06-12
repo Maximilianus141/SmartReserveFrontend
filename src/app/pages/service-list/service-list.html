@@ -4,13 +4,21 @@
 		<p class="main-title">Select a Service Below</p>
 	</div>
 
+	@if (keycloakService.hasRole('ROLE_admin')) {
+		<div class="admin-actions">
+			<button class="btn btn-primary" (click)="router.navigate(['/service/new'])">
+				Add New Service
+			</button>
+		</div>
+	}
 
 	<div class="services-grid">
-		@for (service of serviceList(); track $index) {
+		@for (service of services(); track service.id) {
 			<app-service
 				[service]="service"
 				(editServiceId)="handleServiceEdit($event)"
 				(bookServiceId)="handleServiceId($event)"
+				(deleteServiceId)="handleServiceDelete($event)"
 			></app-service>
 		}
 	</div>

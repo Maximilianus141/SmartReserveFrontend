@@ -14,6 +14,7 @@ describe('ServiceList', () => {
 	beforeEach(async () => {
 		mockServiceService = {
 			getMaterials: () => of([]),
+			deleteService: () => of({ message: 'Deleted' }),
 		};
 
 		mockKeycloakService = {
