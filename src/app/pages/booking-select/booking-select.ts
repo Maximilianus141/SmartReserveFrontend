@@ -104,15 +104,24 @@ export class BookingSelect {
 			return;
 		}
 
-		// Safe conversion to local ISO-8601 string without UTC timezone shifting (drops 'Z' and ms)
-		const timezoneOffset = slot.getTimezoneOffset();
-		const adjustedDate = new Date(slot.getTime() - (timezoneOffset * 60 * 1000));
-		const localISOString = adjustedDate.toISOString().slice(0, 19);
+		// Format the local selected slot Date to a standard ISO string with the local timezone offset
+		const pad = (num: number) => String(num).padStart(2, '0');
+		const tzo = -slot.getTimezoneOffset();
+		const dif = tzo >= 0 ? '+' : '-';
+		const formattedDate = 
+			slot.getFullYear() +
+			'-' + pad(slot.getMonth() + 1) +
+			'-' + pad(slot.getDate()) +
+			'T' + pad(slot.getHours()) +
+			':' + pad(slot.getMinutes()) +
+			':' + pad(slot.getSeconds()) +
+			dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+			':' + pad(Math.abs(tzo) % 60);
 
 		// Ensure we convert the local selected slot Date to an ISO string
 		const requestPayload: GuestReservationRequestDTO = {
 			serviceId: srvId,
-			startTime: localISOString,
+			startTime: formattedDate,
 		};
 
 		this.reservationService.postMyReservation(requestPayload).subscribe({
