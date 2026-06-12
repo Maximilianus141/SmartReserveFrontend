@@ -1,9 +1,17 @@
-<div class="booking-card">
+<div class="booking-card animate-fade-in">
 	<div class="booking-header">
 		<div>
 			<h2 class="step-title">Step 1</h2>
 			<p class="section-title">Select Date & Time</p>
 		</div>
+
+		@if (service(); as srv) {
+			<div class="selected-service-info">
+				<span class="service-label">Booking</span>
+				<h3 class="service-name">{{ srv.name }}</h3>
+				<p class="service-duration">{{ srv.durationSeconds / 60 }} Mins</p>
+			</div>
+		}
 	</div>
 
 	<div class="booking-grid">
@@ -25,10 +33,24 @@
 			>
 			</app-booking-select-time>
 
-			<p class="selection-summary">
-				Selected:
-				<span class="summary-highlight">{{ selectedTime() | date: 'MMM dd @ HH:mm' : 'UTC' }}</span>
-			</p>
+			<div class="selection-footer">
+				<p class="selection-summary">
+					Selected:
+					<span class="summary-highlight">
+						@if (selectedTime()) {
+							{{ selectedTime() | date: 'MMM dd @ HH:mm' : 'UTC' }}
+						} @else {
+							None
+						}
+					</span>
+				</p>
+
+				@if (selectedTime()) {
+					<button class="btn btn-primary btn-confirm animate-fade-in" (click)="confirmBooking()">
+						Confirm Booking :3
+					</button>
+				}
+			</div>
 		</div>
 	</div>
 </div>
