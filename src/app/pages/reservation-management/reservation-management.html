@@ -49,7 +49,7 @@
 										<option [value]="null" disabled>-- Select a Service --</option>
 										@for (srv of availableServices(); track srv.id) {
 											<option [value]="srv.id">
-												{{ srv.name }} ({{ srv.wholeDurationSeconds / 60 }} mins)
+												{{ srv.name }} ({{ (srv.wholeDurationSeconds ?? 0) / 60 }} mins)
 											</option>
 										}
 									</select>
@@ -128,7 +128,7 @@
 									<div class="detail-item">
 										<span class="detail-label">Duration:</span>
 										<span class="detail-value"
-											>{{ reservation.service.wholeDurationSeconds / 60 }} Minutes</span
+											>{{ (reservation.service.wholeDurationSeconds ?? 0) / 60 }} Minutes</span
 										>
 									</div>
 									<div class="detail-item description-item">
@@ -159,11 +159,20 @@
 						</div>
 					</div>
 
-					@if (isAdmin()) {
+					@if (reservation.status !== 'CANCELLED') {
 						<div class="card-footer-actions">
-							<button class="btn-modify" (click)="startEdit(reservation)">
-								<i class="fa-solid fa-pen-to-square"></i> Modify Reservation
-							</button>
+							@if (isAdmin()) {
+								<button class="btn-delete" (click)="deleteReservation(reservation.id)">
+									<i class="fa-solid fa-trash"></i> Delete
+								</button>
+								<button class="btn-modify" (click)="startEdit(reservation)">
+									<i class="fa-solid fa-pen-to-square"></i> Modify Reservation
+								</button>
+							} @else {
+								<button class="btn-cancel" (click)="deleteReservation(reservation.id)">
+									<i class="fa-solid fa-xmark"></i> Cancel Reservation
+								</button>
+							}
 						</div>
 					}
 				}

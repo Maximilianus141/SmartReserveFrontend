@@ -2,28 +2,10 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { KeycloakService } from '../../auth/keycloak.service';
-
-export interface ServicePayload {
-	id: number;
-	name: string;
-	description: string;
-	durationSeconds: number;
-	afterServiceBreakDurationSeconds: number;
-	wholeDurationSeconds: number;
-}
-
-export interface Reservation {
-	id: number;
-	user?: {
-		id: string;
-		username: string;
-		email: string;
-	};
-	service: ServicePayload;
-	status: string;
-	startTime: string;
-	endTime: string;
-}
+import { ReservationService } from '../../services/reservation.service';
+import { ServiceService } from '../../services/service.service';
+import { AdminReservationRequestDTO, Reservation } from '../../dataaccess/reservation';
+import { ServiceInfo } from '../../dataaccess/service-info';
 
 @Component({
 	selector: 'app-reservation-list',
@@ -34,11 +16,13 @@ export interface Reservation {
 })
 export class ReservationManagement implements OnInit {
 	private keycloakService = inject(KeycloakService);
+	private reservationService = inject(ReservationService);
+	private serviceService = inject(ServiceService);
 	private fb = inject(FormBuilder);
 
 	// Signals for state
-	reservations = signal<Reservation[]>([]);
-	availableServices = signal<ServicePayload[]>([]); // Your pre-existing services
+	reservations = signal<any[]>([]);
+	availableServices = signal<ServiceInfo[]>([]);
 	isAdmin = signal<boolean>(false);
 	editingReservationId = signal<number | null>(null);
 
@@ -68,53 +52,30 @@ export class ReservationManagement implements OnInit {
 	}
 
 	loadExistingServices(): void {
-		// Populate this from your actual pre-existing service/API
-		this.availableServices.set([
-			{
-				id: 1,
-				name: 'Haircut',
-				description: 'Standard cut',
-				durationSeconds: 1800,
-				afterServiceBreakDurationSeconds: 300,
-				wholeDurationSeconds: 2100,
+		this.serviceService.getMaterials().subscribe({
+			next: (services) => {
+				this.availableServices.set(services);
 			},
-			{
-				id: 2,
-				name: 'Massage',
-				description: 'Full body Swedish massage',
-				durationSeconds: 3600,
-				afterServiceBreakDurationSeconds: 600,
-				wholeDurationSeconds: 4200,
-			},
-			{
-				id: 3,
-				name: 'Beard Trim',
-				description: 'Trimming and shaping',
-				durationSeconds: 900,
-				afterServiceBreakDurationSeconds: 150,
-				wholeDurationSeconds: 1050,
-			},
-		]);
+			error: (err) => console.error('Failed to load services', err),
+		});
 	}
 
 	loadReservations(): void {
-		this.reservations.set([
-			{
-				id: 101,
-				user: { id: 'u1', username: 'john_doe', email: 'john@example.com' },
-				service: {
-					id: 1,
-					name: 'Haircut',
-					description: 'Standard cut',
-					durationSeconds: 1800,
-					afterServiceBreakDurationSeconds: 300,
-					wholeDurationSeconds: 2100,
+		if (this.isAdmin()) {
+			this.reservationService.getAllReservations().subscribe({
+				next: (resList) => {
+					this.reservations.set(resList);
 				},
-				status: 'PENDING',
-				startTime: '2026-06-11T08:50:37.548Z',
-				endTime: '2026-06-11T09:25:37.548Z',
-			},
-		]);
+				error: (err) => console.error('Failed to load all reservations', err),
+			});
+		} else {
+			this.reservationService.getMyReservations().subscribe({
+				next: (resList) => {
+					this.reservations.set(resList);
+				},
+				error: (err) => console.error('Failed to load my reservations', err),
+			});
+		}
 	}
 
 	private trackServiceSelection(): void {
@@ -127,7 +88,7 @@ export class ReservationManagement implements OnInit {
 		});
 	}
 
-	startEdit(reservation: Reservation): void {
+	startEdit(reservation: any): void {
 		this.editingReservationId.set(reservation.id);
 
 		if (reservation.user) {
@@ -158,12 +119,46 @@ export class ReservationManagement implements OnInit {
 	saveReservation(): void {
 		if (this.reservationForm.invalid || !this.isAdmin()) return;
 
-		const updatedData: Reservation = this.reservationForm.value;
+		const formValues = this.reservationForm.value;
 
-		this.reservations.update((currentList) =>
-			currentList.map((res) => (res.id === updatedData.id ? { ...res, ...updatedData } : res)),
-		);
+		const payload: AdminReservationRequestDTO = {
+			userId: formValues.user?.id || '',
+			serviceId: Number(formValues.service.id),
+			status: formValues.status,
+			startTime: new Date(formValues.startTime).toISOString(),
+		};
 
-		this.editingReservationId.set(null);
+		const id = formValues.id;
+
+		this.reservationService.putReservation(id, payload).subscribe({
+			next: (updatedRes) => {
+				this.reservations.update((list) => list.map((res) => (res.id === id ? updatedRes : res)));
+				this.editingReservationId.set(null);
+			},
+			error: (err) => console.error('Failed to update reservation', err),
+		});
+	}
+
+	deleteReservation(id: number): void {
+		if (this.isAdmin()) {
+			if (!confirm('Are you sure you want to delete this reservation?')) return;
+			this.reservationService.deleteReservation(id).subscribe({
+				next: () => {
+					this.reservations.update((list) => list.filter((res) => res.id !== id));
+				},
+				error: (err) => console.error('Failed to delete reservation', err),
+			});
+		} else {
+			if (!confirm('Are you sure you want to cancel your reservation?')) return;
+			this.reservationService.cancelMyReservation(id).subscribe({
+				next: () => {
+					// Toggle local status representation to CANCELLED
+					this.reservations.update((list) =>
+						list.map((res) => (res.id === id ? { ...res, status: 'CANCELLED' } : res)),
+					);
+				},
+				error: (err) => console.error('Failed to cancel reservation', err),
+			});
+		}
 	}
 }
