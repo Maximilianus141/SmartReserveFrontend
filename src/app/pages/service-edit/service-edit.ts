@@ -63,42 +63,67 @@ export class ServiceEdit implements OnInit {
 			id: service.id,
 			name: service.name,
 			description: service.description,
-			// Convert backend seconds to minutes for the UI fields
-			durationMinutes: service.durationSeconds / 60,
-			afterServiceBreakDurationMinutes: service.afterServiceBreakDurationSeconds / 60,
+			// Guard against potential null/undefined seconds and convert backend seconds to minutes for the UI fields
+			durationMinutes: (service.durationSeconds ?? 0) / 60,
+			afterServiceBreakDurationMinutes: (service.afterServiceBreakDurationSeconds ?? 0) / 60,
 		});
 	}
 
 	onSubmit(): void {
+		console.log('Service Edit Submit Clicked. Form state:', {
+			valid: this.serviceForm.valid,
+			values: this.serviceForm.value,
+			errors: this.serviceForm.errors,
+		});
+
 		if (this.serviceForm.invalid) {
-			this.serviceForm.markAllAsTouched();
+			const invalidControls: string[] = [];
+			const controls = this.serviceForm.controls;
+			for (const name in controls) {
+				if (controls[name].invalid) {
+					invalidControls.push(name);
+				}
+			}
+			console.warn('Service Edit Form validation failed on controls:', invalidControls);
+			alert(`Cannot save service: some fields are invalid, nyaa~! :3\nInvalid fields: ${invalidControls.join(', ')}`);
 			return;
 		}
 
 		const formRawValues = this.serviceForm.value;
 
-		const payload: Omit<ServiceInfo, 'id'> & { id?: number } = {
+		const payload: ServiceInfo = {
+			id: this.isEditMode ? Number(formRawValues.id) : 0,
 			name: formRawValues.name,
 			description: formRawValues.description,
-			durationSeconds: formRawValues.durationMinutes * 60,
-			afterServiceBreakDurationSeconds: formRawValues.afterServiceBreakDurationMinutes * 60,
+			durationSeconds: Number(formRawValues.durationMinutes) * 60,
+			afterServiceBreakDurationSeconds: Number(formRawValues.afterServiceBreakDurationMinutes) * 60,
 		};
 
+		console.log('Sending Service Payload:', payload);
+
 		if (this.isEditMode) {
-			const id = Number(formRawValues.id);
-			payload.id = id;
-			this.serviceService.putService(id, payload as any).subscribe({
-				next: () => {
+			this.serviceService.putService(payload.id, payload).subscribe({
+				next: (res) => {
+					console.log('Service updated successfully!', res);
+					alert('Service modified successfully, nyaa~! :3');
 					this.router.navigate(['/']);
 				},
-				error: (err) => console.error('Failed to update service', err),
+				error: (err) => {
+					console.error('Failed to update service', err);
+					alert(`Oh no! Failed to update service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+				},
 			});
 		} else {
-			this.serviceService.postService(payload as any).subscribe({
-				next: () => {
+			this.serviceService.postService(payload).subscribe({
+				next: (res) => {
+					console.log('Service created successfully!', res);
+					alert('Service created successfully, nyaa~! :3');
 					this.router.navigate(['/']);
 				},
-				error: (err) => console.error('Failed to create service', err),
+				error: (err) => {
+					console.error('Failed to create service', err);
+					alert(`Oh no! Failed to create service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+				},
 			});
 		}
 	}
