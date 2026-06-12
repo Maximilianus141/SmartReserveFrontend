@@ -6,7 +6,6 @@ import { ReservationService } from '../../services/reservation.service';
 import { ServiceService } from '../../services/service.service';
 import { AdminReservationRequestDTO, Reservation } from '../../dataaccess/reservation';
 import { ServiceInfo } from '../../dataaccess/service-info';
-import { User } from '../../dataaccess/user';
 
 @Component({
 	selector: 'app-reservation-list',
@@ -161,17 +160,12 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
-		// Build a highly robust, fully hydrated payload strictly without using 'any'
-		const payload: AdminReservationRequestDTO & { service: ServiceInfo; user: User | null } = {
+		// Build the payload strictly matching the backend's expected AdminReservationRequestDTO structure
+		const payload: AdminReservationRequestDTO = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
 			startTime: new Date(formValues.startTime).toISOString(),
-			// Send the FULL service object containing id, name, description, duration, etc.
-			// This is required by strict backend JPA/Hibernate entity deserialization!
-			service: formValues.service as ServiceInfo,
-			// Send the FULL user object if present
-			user: (formValues.user as User | null) || null,
 		};
 
 		const id = formValues.id;
