@@ -96,39 +96,49 @@ export class ServiceEdit implements OnInit {
 		const durationSec = Number(formRawValues.durationMinutes) * 60;
 		const breakSec = Number(formRawValues.afterServiceBreakDurationMinutes) * 60;
 
-		const payload: ServiceInfo = {
-			id: this.isEditMode && this.serviceId ? this.serviceId : 0,
-			name: formRawValues.name,
-			description: formRawValues.description,
-			durationSeconds: durationSec,
-			afterServiceBreakDurationSeconds: breakSec,
-			wholeDurationSeconds: durationSec + breakSec,
-		};
-
-		console.log('Sending Service Payload:', payload);
-
 		if (this.isEditMode) {
+			const payload: ServiceInfo = {
+				id: this.serviceId ? this.serviceId : 0,
+				name: formRawValues.name,
+				description: formRawValues.description,
+				durationSeconds: durationSec,
+				afterServiceBreakDurationSeconds: breakSec,
+				wholeDurationSeconds: durationSec + breakSec,
+			};
+
+			console.log('Sending PUT Service Payload:', payload);
+
 			this.serviceService.putService(payload.id, payload).subscribe({
 				next: (res) => {
 					console.log('Service updated successfully!', res);
-					alert('Service modified successfully!');
+					alert('Service modified successfully, nyaa~! :3');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
 					console.error('Failed to update service', err);
-					alert(`Oh no! Failed to update service!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Oh no! Failed to update service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		} else {
+			const payload: Omit<ServiceInfo, 'id'> = {
+				name: formRawValues.name,
+				description: formRawValues.description,
+				durationSeconds: durationSec,
+				afterServiceBreakDurationSeconds: breakSec,
+				wholeDurationSeconds: durationSec + breakSec,
+			};
+
+			console.log('Sending POST Service Payload:', payload);
+
 			this.serviceService.postService(payload).subscribe({
 				next: (res) => {
 					console.log('Service created successfully!', res);
-					alert('Service created successfully!');
+					alert('Service created successfully, nyaa~! :3');
 					this.router.navigate(['/']);
 				},
 				error: (err) => {
 					console.error('Failed to create service', err);
-					alert(`Oh no! Failed to create service!\nError: ${err.message || err.statusText || 'Unknown error'}`);
+					alert(`Oh no! Failed to create service, nyaa~!\nError: ${err.message || err.statusText || 'Unknown error'}`);
 				},
 			});
 		}
