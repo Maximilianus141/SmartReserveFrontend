@@ -52,9 +52,35 @@
 							"optimization": false,
 							"extractLicenses": false,
 							"sourceMap": true
+						},
+						"PROD": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kB",
+									"maximumError": "1MB"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "10kB",
+									"maximumError": "20kB"
+								}
+							],
+							"outputHashing": "all",
+							"fileReplacements": [
+								{
+									"replace": "src/app/config/env.ts",
+									"with": "src/app/config/env.prod.ts"
+								}
+							]
+						},
+						"DEV": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true
 						}
 					},
-					"defaultConfiguration": "production"
+					"defaultConfiguration": "PROD"
 				},
 				"serve": {
 					"builder": "@angular/build:dev-server",
@@ -64,9 +90,15 @@
 						},
 						"development": {
 							"buildTarget": "SmartReserveFrontend:build:development"
+						},
+						"PROD": {
+							"buildTarget": "SmartReserveFrontend:build:PROD"
+						},
+						"DEV": {
+							"buildTarget": "SmartReserveFrontend:build:DEV"
 						}
 					},
-					"defaultConfiguration": "development"
+					"defaultConfiguration": "DEV"
 				},
 				"test": {
 					"builder": "@angular/build:unit-test"
