@@ -15,6 +15,12 @@ export const routes: Routes = [
 		component: BookingSelect,
 	},
 	{
+		path: 'service/new',
+		component: ServiceEdit,
+		canActivate: [authGuard],
+		data: { roles: ['ROLE_admin'] },
+	},
+	{
 		path: 'service/:serviceId/edit',
 		component: ServiceEdit,
 		canActivate: [authGuard],
