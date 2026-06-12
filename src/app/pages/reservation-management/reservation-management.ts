@@ -160,18 +160,12 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
-		// Safe conversion to local ISO-8601 string without UTC timezone shifting (drops 'Z' and ms)
-		const dateObj = new Date(formValues.startTime);
-		const timezoneOffset = dateObj.getTimezoneOffset();
-		const adjustedDate = new Date(dateObj.getTime() - (timezoneOffset * 60 * 1000));
-		const localISOString = adjustedDate.toISOString().slice(0, 19);
-
 		// Build a highly robust, fully hydrated payload to support both flat DTO fields and nested JPA entities
 		const payload: any = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
-			startTime: localISOString,
+			startTime: new Date(formValues.startTime).toISOString(),
 			// Send the FULL service object containing id, name, description, duration, etc.
 			// This is required by strict backend JPA/Hibernate entity deserialization!
 			service: formValues.service,
