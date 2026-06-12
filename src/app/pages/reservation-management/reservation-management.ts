@@ -160,16 +160,17 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
+		// Build a highly robust, fully hydrated payload to support both flat DTO fields and nested JPA entities
 		const payload: any = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
 			startTime: new Date(formValues.startTime).toISOString(),
-			// Robust fallback: Some backend mappers require nested entities instead of flat IDs
-			service: {
-				id: Number(formValues.service.id),
-			},
-			user: formValues.user?.id ? { id: formValues.user.id } : null,
+			// Send the FULL service object containing id, name, description, duration, etc.
+			// This is required by strict backend JPA/Hibernate entity deserialization!
+			service: formValues.service,
+			// Send the FULL user object if present
+			user: formValues.user || null,
 		};
 
 		const id = formValues.id;
