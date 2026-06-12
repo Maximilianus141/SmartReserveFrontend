@@ -1,34 +1,50 @@
-import { Component, input } from '@angular/core';
-import { ServiceInfo } from '../../dataaccess/service-info';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ServiceInfo } from '../../dataaccess/service-info';
+import { ServiceService } from '../../services/service.service';
 
 @Component({
 	selector: 'app-service-edit',
+	standalone: true,
 	imports: [ReactiveFormsModule],
 	templateUrl: './service-edit.html',
 	styleUrl: './service-edit.scss',
 })
-export class ServiceEdit {
-	serviceToEdit = input<ServiceInfo>({
-		id: 0,
-		name: '',
-		description: '',
-		durationSeconds: 0,
-		afterServiceBreakDurationSeconds: 0,
-	});
+export class ServiceEdit implements OnInit {
+	private fb = inject(FormBuilder);
+	private route = inject(ActivatedRoute);
+	private router = inject(Router);
+	private serviceService = inject(ServiceService);
 
 	serviceForm!: FormGroup;
 	isEditMode = false;
 
-	constructor(private fb: FormBuilder) {}
-
 	ngOnInit(): void {
 		this.initForm();
 
-		if (this.serviceToEdit) {
-			this.isEditMode = true;
-			this.loadFormValues(this.serviceToEdit());
-		}
+		this.route.paramMap.subscribe((params) => {
+			const idParam = params.get('serviceId');
+			if (idParam && idParam !== 'new') {
+				this.isEditMode = true;
+				const serviceId = Number(idParam);
+				this.serviceService.getServiceById(serviceId).subscribe({
+					next: (service) => {
+						this.loadFormValues(service);
+					},
+					error: (err) => console.error('Failed to load service', err),
+				});
+			} else {
+				this.isEditMode = false;
+				this.serviceForm.reset({
+					id: null,
+					name: '',
+					description: '',
+					durationMinutes: null,
+					afterServiceBreakDurationMinutes: null,
+				});
+			}
+		});
 	}
 
 	private initForm(): void {
@@ -61,22 +77,35 @@ export class ServiceEdit {
 
 		const formRawValues = this.serviceForm.value;
 
-		// Map UI minute values back into the ServiceInfo standard seconds structure
-		const payload: ServiceInfo = {
-			id: formRawValues.id || 0, // 0 or handle backend assignment if creating new
+		const payload: Omit<ServiceInfo, 'id'> & { id?: number } = {
 			name: formRawValues.name,
 			description: formRawValues.description,
 			durationSeconds: formRawValues.durationMinutes * 60,
 			afterServiceBreakDurationSeconds: formRawValues.afterServiceBreakDurationMinutes * 60,
 		};
 
-		console.log('Formatted ServiceInfo Payload:', payload);
-		// Send payload to your Angular Service (e.g., this.myService.save(payload))
+		if (this.isEditMode) {
+			const id = Number(formRawValues.id);
+			payload.id = id;
+			this.serviceService.putService(id, payload as any).subscribe({
+				next: () => {
+					this.router.navigate(['/']);
+				},
+				error: (err) => console.error('Failed to update service', err),
+			});
+		} else {
+			this.serviceService.postService(payload as any).subscribe({
+				next: () => {
+					this.router.navigate(['/']);
+				},
+				error: (err) => console.error('Failed to create service', err),
+			});
+		}
 	}
 
 	onCancel(): void {
 		if (confirm('Discard changes?')) {
-			this.serviceForm.reset();
+			this.router.navigate(['/']);
 		}
 	}
 }
