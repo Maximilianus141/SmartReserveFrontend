@@ -75,8 +75,11 @@ export class BookingSelect {
 		// Reset previously selected slot when the date changes
 		this.selectedTime.set(null);
 
-		// Standard ISO date extraction (YYYY-MM-DD)
-		const formattedDate = date.toISOString().split('T')[0];
+		// Safe extraction of local date components to prevent timezone shifting (midnight bug)
+		const year = date.getFullYear();
+		const month = String(date.getMonth() + 1).padStart(2, '0');
+		const day = String(date.getDate()).padStart(2, '0');
+		const formattedDate = `${year}-${month}-${day}`;
 
 		this.availabilityService.getAvailability(formattedDate).subscribe((availability) => {
 			console.log('RAW BACKEND DATA:', availability);
