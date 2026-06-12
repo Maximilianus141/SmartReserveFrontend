@@ -160,12 +160,18 @@ export class ReservationManagement implements OnInit {
 
 		const formValues = this.reservationForm.value;
 
+		// Safe conversion to local ISO-8601 string without UTC timezone shifting (drops 'Z' and ms)
+		const dateObj = new Date(formValues.startTime);
+		const timezoneOffset = dateObj.getTimezoneOffset();
+		const adjustedDate = new Date(dateObj.getTime() - (timezoneOffset * 60 * 1000));
+		const localISOString = adjustedDate.toISOString().slice(0, 19);
+
 		// Build the payload strictly matching the backend's expected AdminReservationRequestDTO structure
 		const payload: AdminReservationRequestDTO = {
 			userId: formValues.user?.id || '',
 			serviceId: Number(formValues.service.id),
 			status: formValues.status,
-			startTime: new Date(formValues.startTime).toISOString(),
+			startTime: localISOString,
 		};
 
 		const id = formValues.id;
