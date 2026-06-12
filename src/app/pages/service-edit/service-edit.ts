@@ -19,6 +19,7 @@ export class ServiceEdit implements OnInit {
 
 	serviceForm!: FormGroup;
 	isEditMode = false;
+	serviceId: number | null = null;
 
 	ngOnInit(): void {
 		this.initForm();
@@ -27,8 +28,8 @@ export class ServiceEdit implements OnInit {
 			const idParam = params.get('serviceId');
 			if (idParam && idParam !== 'new') {
 				this.isEditMode = true;
-				const serviceId = Number(idParam);
-				this.serviceService.getServiceById(serviceId).subscribe({
+				this.serviceId = Number(idParam);
+				this.serviceService.getServiceById(this.serviceId).subscribe({
 					next: (service) => {
 						this.loadFormValues(service);
 					},
@@ -36,6 +37,7 @@ export class ServiceEdit implements OnInit {
 				});
 			} else {
 				this.isEditMode = false;
+				this.serviceId = null;
 				this.serviceForm.reset({
 					id: null,
 					name: '',
@@ -91,12 +93,16 @@ export class ServiceEdit implements OnInit {
 
 		const formRawValues = this.serviceForm.value;
 
+		const durationSec = Number(formRawValues.durationMinutes) * 60;
+		const breakSec = Number(formRawValues.afterServiceBreakDurationMinutes) * 60;
+
 		const payload: ServiceInfo = {
-			id: this.isEditMode ? Number(formRawValues.id) : 0,
+			id: this.isEditMode && this.serviceId ? this.serviceId : 0,
 			name: formRawValues.name,
 			description: formRawValues.description,
-			durationSeconds: Number(formRawValues.durationMinutes) * 60,
-			afterServiceBreakDurationSeconds: Number(formRawValues.afterServiceBreakDurationMinutes) * 60,
+			durationSeconds: durationSec,
+			afterServiceBreakDurationSeconds: breakSec,
+			wholeDurationSeconds: durationSec + breakSec,
 		};
 
 		console.log('Sending Service Payload:', payload);
