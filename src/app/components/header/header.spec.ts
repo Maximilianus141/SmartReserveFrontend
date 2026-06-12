@@ -12,6 +12,7 @@ describe('Header', () => {
 		mockKeycloakService = {
 			isLoggedIn: false,
 			username: 'test-user',
+			hasRole: () => false,
 			login: async () => {},
 			logout: async () => {},
 		};
